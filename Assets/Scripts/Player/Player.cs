@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool grounded;
 
     [SerializeField, HideInInspector] private Rigidbody _rb;
+
+
     private Vector3 _moveDirection;
 
 #if UNITY_EDITOR
@@ -57,10 +59,7 @@ public class Player : MonoBehaviour
 
     private void Shoot(InputAction.CallbackContext context)
     {
-        _lineRenderer.enabled = true;
-        _lineRenderer.useWorldSpace = true;
-        _lineRenderer.SetPosition(0, _shotPoint.position);
-        _lineRenderer.SetPosition(1, _shotPoint.position + _shotPoint.right * 100f);
+        
     }
 
     private void Jump(InputAction.CallbackContext context)

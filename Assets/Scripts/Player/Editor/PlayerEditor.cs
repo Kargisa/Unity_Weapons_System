@@ -19,6 +19,23 @@ public class PlayerEditor : Editor
         Info(ref player.foldoutInfo);
     }
 
+    public void DrawAbilitiesEditor(Object abilitie, ref Editor editor, ref bool foldout)
+    {
+        if (abilitie == null)
+            return;
+
+        foldout = EditorGUILayout.InspectorTitlebar(foldout, abilitie);
+
+        if (foldout)
+        {
+            using (var check = new EditorGUI.ChangeCheckScope())
+            {
+                CreateCachedEditor(abilitie, null, ref editor);
+                editor.OnInspectorGUI();
+            }
+        }
+    }
+
     private void Info(ref bool foldout)
     {
         foldout = EditorGUILayout.BeginFoldoutHeaderGroup(foldout, "Info");
