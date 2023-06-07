@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cb83a61a136754c82468536774969d, type: 3}
   m_Name: Railgun
   m_EditorClassIdentifier: 
+  foldWeapon: 1
+  lockAttackType: 1
   attackType: 0
-  range:
-    damage: 10
+  rangeSettings:
+    damage: 5
     anchor: {fileID: 0}
-    range: 50
-    fireRate: 0.5
-    weapon: 1
-    railgun: {fileID: 0}
-  melee:
+    range: 0
+    RPM: 0
+  meleeSettings:
     damage: 5
     anchor: {fileID: 0}
     speed: 0
+  rangeWeaponType: 0
+  railgun: {fileID: 11400000, guid: fb6fda322d5253545b05f1c14d8b2138, type: 2}
+  meleeWeaponType: 0

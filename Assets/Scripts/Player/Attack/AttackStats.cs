@@ -9,15 +9,34 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player/Weapon/Stats")]
 public class AttackStats : ScriptableObject
 {
+#if UNITY_EDITOR
+    [HideInInspector] public bool foldWeapon;
+#endif
+
     [HideInInspector] public bool lockAttackType;
     [HideInInspector] public AttackType attackType;
 
-    [ConditionalHide("attackType", 0)]
-    public AttackSettings.Range range;
+    [ConditionalHide(nameof(attackType), (int)AttackType.Range)]
+    public AttackSettings.Range rangeSettings;
 
-    [ConditionalHide("attackType", 1)]
-    public AttackSettings.Melee melee;
+    [ConditionalHide(nameof(attackType), (int)AttackType.Melee)]
+    public AttackSettings.Melee meleeSettings;
 
+
+    #region Range Weapons
+    //Range Weapons ScriptableObjects
+    [ConditionalHide(nameof(attackType), (int)AttackType.Range)]
+    public RangeWeaponType rangeWeaponType;
+
+    [ConditionalHide(nameof(rangeWeaponType), (int)RangeWeaponType.Railgun)]
+    public Railgun railgun;
+    #endregion
+
+    #region Range Weapons
+    //Melee Weapons ScriptableObjects
+    [ConditionalHide(nameof(attackType), (int)AttackType.Melee)]
+    public MeleeWeaponType meleeWeaponType;
+    #endregion
 }
 
 #region EDITOR

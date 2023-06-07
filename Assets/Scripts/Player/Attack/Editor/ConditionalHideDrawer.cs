@@ -32,7 +32,6 @@ public class ConditionalHideDrawer : PropertyDrawer
 
     private bool GetConditionalHideAttributeResult(ConditionalHideAttribute condHideAttribute, SerializedProperty property)
     {
-        Debug.Log(property.name + " " + condHideAttribute.sourceField);
         SerializedProperty sourcePropertyValue = property.serializedObject.FindProperty(condHideAttribute.sourceField);
         if (sourcePropertyValue != null)
         {

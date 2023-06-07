@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
             _rb = GetComponent<Rigidbody>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         InputManager.Instance.InputActions.Main.Enable();
         InputManager.Instance.InputActions.Main.Jump.performed += Jump;
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
         grounded = Physics.Raycast(ray, _maxGroundDistance, _groundMask);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         InputManager.Instance.InputActions.Main.Jump.performed -= Jump;
         InputManager.Instance.InputActions.Main.Shoot.performed -= Attack_Main;

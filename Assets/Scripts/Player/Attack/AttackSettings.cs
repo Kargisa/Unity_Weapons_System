@@ -25,6 +25,6 @@ public class AttackSettings
 
         [Header("Range")]
         public float range;
-        public float fireRate;
+        public float RPM;
     }
 }

@@ -8,8 +8,8 @@ public static class AttackTypeGenerator
     {
         return stats.attackType switch
         {
-            AttackType.Range => new RangeAttack(stats.range),
-            AttackType.Melee => new MeleeAttack(stats.melee),
+            AttackType.Range => new RangeAttack(stats.rangeSettings),
+            AttackType.Melee => new MeleeAttack(stats.meleeSettings),
             _ => null,
         };
     }
