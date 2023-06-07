@@ -8,9 +8,8 @@ public class Player : MonoBehaviour
     public float speed;
     public float jumpForce;
 
-    [Header("Shoot")]
-    [SerializeField] private Transform _shotPoint;
-    [SerializeField] private LineRenderer _lineRenderer;
+    [Header("Attack")]
+    public Attack weapon_main;
 
     [Header("Jump")]
     [SerializeField] private Transform _groundCheck;
@@ -19,7 +18,6 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool grounded;
 
     [SerializeField, HideInInspector] private Rigidbody _rb;
-
 
     private Vector3 _moveDirection;
 
@@ -34,11 +32,11 @@ public class Player : MonoBehaviour
             _rb = GetComponent<Rigidbody>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         InputManager.Instance.InputActions.Main.Enable();
         InputManager.Instance.InputActions.Main.Jump.performed += Jump;
-        InputManager.Instance.InputActions.Main.Shoot.performed += Shoot;
+        InputManager.Instance.InputActions.Main.Shoot.performed += Attack_Main;
     }
 
     private void Update()
@@ -57,14 +55,16 @@ public class Player : MonoBehaviour
         _rb.velocity = new Vector3(_moveDirection.x * speed, _rb.velocity.y, _moveDirection.z * speed);
     }
 
-    private void Shoot(InputAction.CallbackContext context)
+    private void Attack_Main(InputAction.CallbackContext context)
     {
-        
+        if (weapon_main == null)
+            return;
+
+        weapon_main.MakeAttack();
     }
 
     private void Jump(InputAction.CallbackContext context)
     {
-        _lineRenderer.enabled = false;
         if (!context.performed)
             return;
 
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         InputManager.Instance.InputActions.Main.Jump.performed -= Jump;
-        InputManager.Instance.InputActions.Main.Shoot.performed -= Shoot;
+        InputManager.Instance.InputActions.Main.Shoot.performed -= Attack_Main;
     }
 
     private void OnDrawGizmosSelected()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeAttack : IAttckType
+public class MeleeAttack : IAttackType
 {
     public AttackSettings.Melee Settings { get; set; }
 

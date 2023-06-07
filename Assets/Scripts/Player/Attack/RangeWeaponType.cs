@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IAttckType
+public enum RangeWeaponType
 {
-    public void MakeAttack();
+    Railgun,
+    None
 }

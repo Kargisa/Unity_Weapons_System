@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80cb83a61a136754c82468536774969d, type: 3}
-  m_Name: Melee
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  attackType: 0
+  attackType: 1
   range:
-    damage: 0
-    bus: ff
+    damage: 5
+    anchor: {fileID: 0}
+    range: 0
+    fireRate: 0
+    weapon: 0
+    railgun: {fileID: 0}
   melee:
-    damage: 0
-    sus: 
+    damage: 5
+    anchor: {fileID: 0}
+    speed: 1

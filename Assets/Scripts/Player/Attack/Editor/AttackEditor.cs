@@ -17,7 +17,7 @@ public class AttackEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        DrawSettings(attack.settings, ref settings, ref attack.foldSettings);
+        DrawSettings(attack.attackMaker, ref settings, ref attack.foldSettings);
     }
 
     private void DrawSettings(Object attack, ref Editor editor, ref bool fold)
