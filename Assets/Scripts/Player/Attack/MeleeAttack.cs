@@ -11,7 +11,7 @@ public class MeleeAttack : IAttackType
         Settings = settings;
     }
 
-    public void MakeAttack()
+    public Vector3 MakeAttack(Transform attackAnchor)
     {
         throw new System.NotImplementedException();
     }

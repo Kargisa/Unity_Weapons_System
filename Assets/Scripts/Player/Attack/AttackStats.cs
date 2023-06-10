@@ -32,7 +32,7 @@ public class AttackStats : ScriptableObject
     public Railgun railgun;
     #endregion
 
-    #region Range Weapons
+    #region Melee Weapons
     //Melee Weapons ScriptableObjects
     [ConditionalHide(nameof(attackType), (int)AttackType.Melee)]
     public MeleeWeaponType meleeWeaponType;

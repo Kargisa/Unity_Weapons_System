@@ -9,17 +9,39 @@ public class Attack : MonoBehaviour
     [HideInInspector] public bool foldSettings;
 #endif
 
-    public AttackStats attackMaker;
+    public AttackStats attackStats;
 
-    [SerializeField, HideInInspector] private IAttackType attackType;
+    [SerializeField, HideInInspector] public IAttackType attackType;
+    [SerializeField, HideInInspector] public IWeapon weaponType;
+
+
+    /// <summary>
+    /// The <b>point</b> from where the attack emerges from
+    /// </summary>
+    [HideInInspector] public Transform attackAnchor;
 
     private void OnEnable()
     {
-        attackType ??= AttackTypeGenerator.GenerateAttackType(attackMaker);
+        attackType ??= attackStats.GenerateAttackType();
+        weaponType ??= attackStats.GenerateWeapon();
+        if (attackAnchor == null)
+            attackAnchor = transform.Find("AttackAnchor");
+        InitAttack();
+    }
+
+    private void InitAttack()
+    {
+        weaponType.Initialize(transform, attackStats.attackType == AttackType.Range ? attackStats.rangeSettings : attackStats.meleeSettings);
     }
 
     public void MakeAttack()
     {
-          attackType.MakeAttack();
+        Vector3 hitPoint = attackType.MakeAttack(attackAnchor);
+        StartCoroutine(weaponType.Animate(attackAnchor, hitPoint));
+    }
+
+    private void OnDisable()
+    {
+        weaponType.Destroy();
     }
 }

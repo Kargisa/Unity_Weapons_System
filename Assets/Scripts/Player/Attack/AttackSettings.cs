@@ -10,21 +10,22 @@ public class AttackSettings
 {
     [Min(0f)]
     public float damage = 5f;
-    public Transform anchor;
 
     [System.Serializable]
     public class Melee : AttackSettings
     {
         [Header("Melee")]
+        [Min(0f)]
         public float speed;
     }
 
     [System.Serializable]
     public class Range : AttackSettings
     {
-
         [Header("Range")]
+        [Min(0f)]
         public float range;
+        [Min(0f)]
         public float RPM;
     }
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IAttackType
 {
-    public void MakeAttack();
+    public Vector3 MakeAttack(Transform attackAnchor);
 }
