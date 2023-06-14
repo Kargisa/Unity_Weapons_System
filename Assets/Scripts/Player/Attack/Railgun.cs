@@ -29,7 +29,7 @@ public class Railgun : ScriptableObject, IWeapon
         _line.colorGradient = color;
         _line.startWidth = startWidth;
         _line.endWidth = endWidth;
-        _line.material = new Material(Shader.Find("Universal Render Pipeline/Particles/Lit"));
+        _line.material = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
         _line.enabled = false;
 
         railgunLine.transform.parent = transform;

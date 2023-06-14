@@ -11,8 +11,11 @@ public class Attack : MonoBehaviour
 
     public AttackStats attackStats;
 
-    [SerializeField, HideInInspector] public IAttackType attackType;
-    [SerializeField, HideInInspector] public IWeapon weaponType;
+    [HideInInspector] public IAttackType attackType;
+    [HideInInspector] public IWeapon weaponType;
+    [HideInInspector] public AttackType attackT;
+
+    float timeOfLastShot = 0;
 
 
     /// <summary>
@@ -22,10 +25,10 @@ public class Attack : MonoBehaviour
 
     private void OnEnable()
     {
-        attackType ??= attackStats.GenerateAttackType();
-        weaponType ??= attackStats.GenerateWeapon();
-        if (attackAnchor == null)
-            attackAnchor = transform.Find("AttackAnchor");
+        attackType = attackStats.GenerateAttackType();
+        weaponType = attackStats.GenerateWeapon();
+        attackAnchor = transform.Find("AttackAnchor");
+        timeOfLastShot = Time.time;
         InitAttack();
     }
 
@@ -36,8 +39,23 @@ public class Attack : MonoBehaviour
 
     public void MakeAttack()
     {
+        float timeBetweenShots = Time.time - timeOfLastShot;
+
+        switch (attackStats.attackType)
+        {
+            case AttackType.Range:
+                if (timeBetweenShots <= 60 / attackStats.rangeSettings.RPM)
+                    return;
+                break;
+            case AttackType.Melee:
+                if (timeBetweenShots <= 60 / attackStats.meleeSettings.speed)
+                    return;
+                break;
+        }
+
         Vector3 hitPoint = attackType.MakeAttack(attackAnchor);
         StartCoroutine(weaponType.Animate(attackAnchor, hitPoint));
+        timeOfLastShot = Time.time;
     }
 
     private void OnDisable()

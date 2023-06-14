@@ -15,7 +15,7 @@ public class AttackSettings
     public class Melee : AttackSettings
     {
         [Header("Melee")]
-        [Min(0f)]
+        [Min(0f), Tooltip("The attack speed in attack per seconds")]
         public float speed;
     }
 
@@ -25,7 +25,7 @@ public class AttackSettings
         [Header("Range")]
         [Min(0f)]
         public float range;
-        [Min(0f)]
+        [Min(0f), Tooltip("The rounds per minute")]
         public float RPM;
     }
 }
