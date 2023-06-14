@@ -18,7 +18,7 @@ MonoBehaviour:
   rangeSettings:
     damage: 5
     range: 10
-    RPM: 0
+    RPM: 10
   meleeSettings:
     damage: 5
     speed: 0

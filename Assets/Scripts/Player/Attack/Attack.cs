@@ -28,7 +28,6 @@ public class Attack : MonoBehaviour
         attackType = attackStats.GenerateAttackType();
         weaponType = attackStats.GenerateWeapon();
         attackAnchor = transform.Find("AttackAnchor");
-        timeOfLastShot = Time.time;
         InitAttack();
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RangeAttack : IAttackType
 {
-    public AttackSettings.Range Settings { get; private set; }
+    public AttackSettings.Range Settings { get; }
     public IWeapon Weapon { get; set; }
 
     public RangeAttack(AttackSettings.Range settings)
@@ -15,13 +15,11 @@ public class RangeAttack : IAttackType
     public Vector3 MakeAttack(Transform attackAnchor)
     {
         Ray ray = new Ray(attackAnchor.position, attackAnchor.forward);
-        RaycastHit hit;
-        bool didHit = Physics.Raycast(ray, out hit, Settings.range);
+        bool didHit = Physics.Raycast(ray, out RaycastHit hit, Settings.range);
 
         if (didHit)
             return hit.point;
 
         return Vector3.zero;
     }
-
 }

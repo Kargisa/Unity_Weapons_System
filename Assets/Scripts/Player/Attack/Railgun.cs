@@ -44,7 +44,7 @@ public class Railgun : ScriptableObject, IWeapon
             endpoint = shootpoint.position + shootpoint.forward * settings.range;
         else
             endpoint = hitPoint;
-
+        
         _line.enabled = true;
         _line.SetPosition(0, shootpoint.position);
         _line.SetPosition(1, endpoint);
