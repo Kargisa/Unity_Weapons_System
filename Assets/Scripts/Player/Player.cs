@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        InputManager.Instance.LockMouse(true);
         InputManager.Instance.InputActions.Main.Enable();
         InputManager.Instance.InputActions.Main.Jump.performed += Jump;
         InputManager.Instance.InputActions.Main.Shoot.performed += Attack_Main;

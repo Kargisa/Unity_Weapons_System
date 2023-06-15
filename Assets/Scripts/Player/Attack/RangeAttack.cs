@@ -14,12 +14,27 @@ public class RangeAttack : IAttackType
 
     public Vector3 MakeAttack(Transform attackAnchor)
     {
-        Ray ray = new Ray(attackAnchor.position, attackAnchor.forward);
-        bool didHit = Physics.Raycast(ray, out RaycastHit hit, Settings.range);
+        Vector3 cameraRayOrigin = Camera.main.transform.position;
+        Vector3 cameraRayTargetPoint = Camera.main.transform.forward * Settings.maxFalloffRange + cameraRayOrigin;
 
-        if (didHit)
-            return hit.point;
+        Debug.Log(Camera.main.transform.forward);
 
-        return Vector3.zero;
+        Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint).normalized);
+        bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, Settings.maxFalloffRange);
+
+
+        if (!didCameraHit)
+            return cameraRayTargetPoint;
+
+        Ray weaponRay = new Ray(attackAnchor.position, (cameraHit.point).normalized);
+
+
+        Debug.DrawRay(attackAnchor.position, (cameraHit.point - attackAnchor.position).normalized * 100, Color.green, 1f);
+        bool didWeaponHit = Physics.Raycast(weaponRay, out RaycastHit weaponHit, Settings.maxFalloffRange);
+
+        if (!didWeaponHit)
+            return cameraHit.point;
+
+        return weaponHit.point;
     }
 }

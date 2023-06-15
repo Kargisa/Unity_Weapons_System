@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -15,7 +16,7 @@ public class Attack : MonoBehaviour
     [HideInInspector] public IWeapon weaponType;
     [HideInInspector] public AttackType attackT;
 
-    float timeOfLastShot = 0;
+    float timeOfLastAttack = 0;
 
 
     /// <summary>
@@ -28,6 +29,8 @@ public class Attack : MonoBehaviour
         attackType = attackStats.GenerateAttackType();
         weaponType = attackStats.GenerateWeapon();
         attackAnchor = transform.Find("AttackAnchor");
+        if (attackAnchor == null)
+            throw new ArgumentException($"Missing Child of object {name}: AttackAnchor");
         InitAttack();
     }
 
@@ -38,7 +41,7 @@ public class Attack : MonoBehaviour
 
     public void MakeAttack()
     {
-        float timeBetweenShots = Time.time - timeOfLastShot;
+        float timeBetweenShots = Time.time - timeOfLastAttack;
 
         switch (attackStats.attackType)
         {
@@ -54,7 +57,7 @@ public class Attack : MonoBehaviour
 
         Vector3 hitPoint = attackType.MakeAttack(attackAnchor);
         StartCoroutine(weaponType.Animate(attackAnchor, hitPoint));
-        timeOfLastShot = Time.time;
+        timeOfLastAttack = Time.time;
     }
 
     private void OnDisable()

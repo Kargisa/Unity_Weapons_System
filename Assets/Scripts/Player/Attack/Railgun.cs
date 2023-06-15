@@ -39,15 +39,9 @@ public class Railgun : ScriptableObject, IWeapon
 
     public IEnumerator Animate(Transform shootpoint, Vector3 hitPoint)
     {
-        Vector3 endpoint;
-        if (hitPoint == Vector3.zero)
-            endpoint = shootpoint.position + shootpoint.forward * settings.range;
-        else
-            endpoint = hitPoint;
-        
         _line.enabled = true;
         _line.SetPosition(0, shootpoint.position);
-        _line.SetPosition(1, endpoint);
+        _line.SetPosition(1, hitPoint);
         yield return new WaitForSeconds(0.1f);
         _line.enabled = false;
     }
