@@ -17,19 +17,14 @@ public class RangeAttack : IAttackType
         Vector3 cameraRayOrigin = Camera.main.transform.position;
         Vector3 cameraRayTargetPoint = Camera.main.transform.forward * Settings.maxFalloffRange + cameraRayOrigin;
 
-        Debug.Log(Camera.main.transform.forward);
-
-        Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint).normalized);
+        Ray cameraRay = new Ray(cameraRayOrigin, cameraRayTargetPoint.normalized);
         bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, Settings.maxFalloffRange);
-
 
         if (!didCameraHit)
             return cameraRayTargetPoint;
 
-        Ray weaponRay = new Ray(attackAnchor.position, (cameraHit.point).normalized);
+        Ray weaponRay = new Ray(attackAnchor.position, (cameraHit.point - attackAnchor.position).normalized);
 
-
-        Debug.DrawRay(attackAnchor.position, (cameraHit.point - attackAnchor.position).normalized * 100, Color.green, 1f);
         bool didWeaponHit = Physics.Raycast(weaponRay, out RaycastHit weaponHit, Settings.maxFalloffRange);
 
         if (!didWeaponHit)

@@ -9,17 +9,14 @@ public class Player : MonoBehaviour
     public float mouseSensitivitie;
     public float jumpForce;
 
-    [Header("Attack")]
-    public Attack weapon_main;
-
     [Header("Jump")]
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _maxGroundDistance;
     [SerializeField] private LayerMask _groundMask;
     [HideInInspector] public bool grounded;
 
-    [SerializeField] private Rigidbody _rb;
-    private Camera _camera;
+    private Rigidbody _rb;
+    [HideInInspector] public Camera camera;
     private float rotationX = 0;
 
     private Vector3 _moveDirection;
@@ -33,7 +30,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _camera = Camera.main;
+        camera = Camera.main;
     }
 
     private void Start()
@@ -41,7 +38,6 @@ public class Player : MonoBehaviour
         InputManager.Instance.LockMouse(true);
         InputManager.Instance.InputActions.Main.Enable();
         InputManager.Instance.InputActions.Main.Jump.performed += Jump;
-        InputManager.Instance.InputActions.Main.Shoot.performed += Attack_Main;
     }
 
     private void Update()
@@ -63,7 +59,7 @@ public class Player : MonoBehaviour
         rotationX -= _mouseDelta.y * mouseSensitivitie;
         rotationX = Mathf.Clamp(rotationX, -90, 85);
 
-        _camera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        camera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
     }
 
     private void ReadInputs()
@@ -77,14 +73,6 @@ public class Player : MonoBehaviour
         Vector3 worldDir = transform.TransformDirection(_moveDirection);
         _rb.MovePosition(_rb.position + new Vector3(worldDir.x, 0, worldDir.z) * speed * Time.fixedDeltaTime);
 
-    }
-
-    private void Attack_Main(InputAction.CallbackContext context)
-    {
-        if (weapon_main == null)
-            return;
-
-        weapon_main.MakeAttack();
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -108,7 +96,6 @@ public class Player : MonoBehaviour
     private void OnDestroy()
     {
         InputManager.Instance.InputActions.Main.Jump.performed -= Jump;
-        InputManager.Instance.InputActions.Main.Shoot.performed -= Attack_Main;
     }
 
     private void OnDrawGizmosSelected()
