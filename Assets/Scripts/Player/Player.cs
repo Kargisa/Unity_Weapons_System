@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool grounded;
 
     private Rigidbody _rb;
-    [HideInInspector] public Camera camera;
+    [HideInInspector] public Camera cam;
     private float rotationX = 0;
 
     private Vector3 _moveDirection;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        camera = Camera.main;
+        cam = Camera.main;
     }
 
     private void Start()
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
         rotationX -= _mouseDelta.y * mouseSensitivitie;
         rotationX = Mathf.Clamp(rotationX, -90, 85);
 
-        camera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        cam.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
     }
 
     private void ReadInputs()

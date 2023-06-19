@@ -20,7 +20,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        Quaternion camRotation = _player.camera.transform.localRotation;
+        Quaternion camRotation = _player.cam.transform.localRotation;
     }
 
     private void Attack_Main(InputAction.CallbackContext context)

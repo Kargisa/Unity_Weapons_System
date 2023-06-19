@@ -18,6 +18,7 @@ public class Attack : MonoBehaviour
 
     float timeOfLastAttack = 0;
 
+    Vector3 hitPoint;
 
     /// <summary>
     /// The <b>point</b> from where the attack emerges from
@@ -55,7 +56,7 @@ public class Attack : MonoBehaviour
                 break;
         }
 
-        Vector3 hitPoint = attackType.MakeAttack(attackAnchor);
+        hitPoint = attackType.MakeAttack(attackAnchor);
         StartCoroutine(weaponType.Animate(attackAnchor, hitPoint));
         timeOfLastAttack = Time.time;
     }

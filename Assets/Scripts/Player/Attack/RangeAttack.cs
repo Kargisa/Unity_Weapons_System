@@ -17,7 +17,7 @@ public class RangeAttack : IAttackType
         Vector3 cameraRayOrigin = Camera.main.transform.position;
         Vector3 cameraRayTargetPoint = Camera.main.transform.forward * Settings.maxFalloffRange + cameraRayOrigin;
 
-        Ray cameraRay = new Ray(cameraRayOrigin, cameraRayTargetPoint.normalized);
+        Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
         bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, Settings.maxFalloffRange);
 
         if (!didCameraHit)
