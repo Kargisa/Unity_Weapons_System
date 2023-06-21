@@ -3,24 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Player))]
 public class WeaponController : MonoBehaviour
 {
     [Header("Weapons")]
     public Attack weapon_main;
 
-    private Player _player;
-
     private void Start()
     {
         InputManager.Instance.InputActions.Main.Enable();
         InputManager.Instance.InputActions.Main.Shoot.performed += Attack_Main;
-        _player = GetComponent<Player>();
-    }
-
-    private void Update()
-    {
-        Quaternion camRotation = _player.cam.transform.localRotation;
     }
 
     private void Attack_Main(InputAction.CallbackContext context)

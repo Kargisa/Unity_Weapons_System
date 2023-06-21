@@ -8,13 +8,32 @@ public class Attack : MonoBehaviour
 {
 #if UNITY_EDITOR
     [HideInInspector] public bool foldSettings;
+    [HideInInspector] public bool foldWeapon;
 #endif
 
-    public AttackStats attackStats;
-
+    [HideInInspector] public bool lockAttackType;
     [HideInInspector] public IAttackType attackType;
-    [HideInInspector] public IWeapon weaponType;
+    [HideInInspector] public IWeaponType weaponType;
     [HideInInspector] public AttackType attackT;
+
+    [HideInInspector] public AttackStats attackStats;
+
+
+    #region Range Weapons
+    //Range Weapons ScriptableObjects
+    [HideInInspector]
+    public RangeWeaponType rangeWeaponType;
+
+    [HideInInspector]
+    public Railgun railgun;
+    #endregion
+
+    #region Melee Weapons
+    //Melee Weapons ScriptableObjects
+    [HideInInspector]
+    public MeleeWeaponType meleeWeaponType;
+    #endregion
+
 
     float timeOfLastAttack = 0;
 
@@ -28,7 +47,7 @@ public class Attack : MonoBehaviour
     private void OnEnable()
     {
         attackType = attackStats.GenerateAttackType();
-        weaponType = attackStats.GenerateWeapon();
+        weaponType = this.GenerateWeapon();
         attackAnchor = transform.Find("AttackAnchor");
         if (attackAnchor == null)
             throw new ArgumentException($"Missing Child of object {name}: AttackAnchor");
@@ -37,9 +56,13 @@ public class Attack : MonoBehaviour
 
     private void InitAttack()
     {
-        weaponType.Initialize(transform, attackStats.attackType == AttackType.Range ? attackStats.rangeSettings : attackStats.meleeSettings);
+        weaponType.Initialize(transform);
     }
 
+
+    /// <summary>
+    /// Makes Attack and Animation using the current <b>AttackType</b> and <b>WeaponType</b>
+    /// </summary>
     public void MakeAttack()
     {
         float timeBetweenShots = Time.time - timeOfLastAttack;

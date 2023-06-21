@@ -15,19 +15,19 @@ public static class AttackHelper
         };
     }
 
-    public static IWeapon GenerateWeapon(this AttackStats stats)
+    public static IWeaponType GenerateWeapon(this Attack attack)
     {
-        switch (stats.attackType)
+        switch (attack.attackT)
         {
             case AttackType.Range:
-                return stats.rangeWeaponType switch
+                return attack.rangeWeaponType switch
                 {
-                    RangeWeaponType.Railgun => stats.railgun,
+                    RangeWeaponType.Railgun => attack.railgun,
                     RangeWeaponType.None => null,
                     _ => null
                 };
             case AttackType.Melee:
-                return stats.meleeWeaponType switch
+                return attack.meleeWeaponType switch
                 {
                     MeleeWeaponType.Sword => null,
                     _ => null

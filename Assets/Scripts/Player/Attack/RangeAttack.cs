@@ -5,7 +5,7 @@ using UnityEngine;
 public class RangeAttack : IAttackType
 {
     public AttackSettings.Range Settings { get; }
-    public IWeapon Weapon { get; set; }
+    public IWeaponType Weapon { get; set; }
 
     public RangeAttack(AttackSettings.Range settings)
     {
