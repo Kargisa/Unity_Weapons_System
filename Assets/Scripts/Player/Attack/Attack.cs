@@ -14,8 +14,8 @@ public class Attack : MonoBehaviour
     [HideInInspector] public bool lockAttackType;
     [HideInInspector] public IAttackType attackType;
     [HideInInspector] public IWeaponType weaponType;
-    [HideInInspector] public AttackType attackT;
 
+    [HideInInspector] public AttackType attackT;
     [HideInInspector] public AttackStats attackStats;
 
 

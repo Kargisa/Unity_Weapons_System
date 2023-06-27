@@ -1,4 +1,3 @@
-using Codice.LogWrapper;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -21,16 +20,23 @@ public class AttackEditor : Editor
     {
         base.OnInspectorGUI();
 
+        //Draws and locks the attack type in the inspector
         ToggleTypeSelection();
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Attack Stats");
-        attack.attackStats = (AttackStats)EditorGUILayout.ObjectField(attack.attackStats, typeof(AttackStats), allowSceneObjects: true);
-        EditorGUILayout.EndHorizontal();
+        DrawObjectField(ref attack.attackStats);
+
 
         //UPDATE EDITOR
 
         DrawEditor(attack.attackStats, ref settings, ref attack.foldSettings);
-        GetWeaponObject(attack.attackT);
+        
+        EditorGUILayout.Space();
+        
+        weaponObj = GetWeaponObject(attack.attackT);
+        if (attack.attackT == AttackType.Range)
+            attack.rangeWeaponType = (RangeWeaponType)EditorGUILayout.EnumPopup("Range Weapon Type", attack.rangeWeaponType);
+        else
+            attack.meleeWeaponType = (MeleeWeaponType)EditorGUILayout.EnumPopup("Melee Weapon Type", attack.meleeWeaponType);
+        DrawObjectField(ref weaponObj);
         DrawEditor(weaponObj, ref editor, ref attack.foldWeapon);
     }
 
@@ -46,6 +52,14 @@ public class AttackEditor : Editor
         }
         else
             attack.attackT = (AttackType)EditorGUILayout.EnumPopup("Attack Type", attack.attackT);
+    }
+    
+    private void DrawObjectField<T>(ref T obj) where T : Object
+    {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Attack Stats");
+        obj = EditorGUILayout.ObjectField(obj, typeof(T), allowSceneObjects: true) as T;
+        EditorGUILayout.EndHorizontal();
     }
 
     private void DrawEditor(Object attack, ref Editor editor, ref bool fold)
@@ -65,7 +79,7 @@ public class AttackEditor : Editor
         }
     }
 
-    private void GetWeaponObject(AttackType type)
+    private Object GetWeaponObject(AttackType type)
     {
         switch (type)
         {
@@ -73,30 +87,25 @@ public class AttackEditor : Editor
                 switch (attack.rangeWeaponType)
                 {
                     case RangeWeaponType.Railgun:
-                        weaponObj = attack.railgun;
-                        return;
+                        return attack.railgun;
                     case RangeWeaponType.None:
-                        weaponObj = null;
-                        return;
+                        return null;
                     default:
-                        weaponObj = null;
                         Debug.LogWarning($"Range weapon of type {attack.rangeWeaponType} not implemented");
-                        return;
+                        return null;
                 }
             case AttackType.Melee:
                 switch (attack.meleeWeaponType)
                 {
                     case MeleeWeaponType.Sword:
-                        return;
+                        return null;
                     default:
-                        weaponObj = null;
                         Debug.LogWarning($"Melee weapon of type {attack.meleeWeaponType} not implemented");
-                        return;
+                        return null;
                 }
             default:
-                weaponObj = null;
                 Debug.LogWarning($"{type} attack type not implemented");
-                break;
+                return null;
         }
     }
 }

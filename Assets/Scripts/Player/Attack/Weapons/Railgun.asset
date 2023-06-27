@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cb83a61a136754c82468536774969d, type: 3}
   m_Name: Railgun
   m_EditorClassIdentifier: 
-  lockAttackType: 1
   attackType: 0
   rangeSettings:
     damage: 5
