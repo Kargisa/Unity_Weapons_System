@@ -9,9 +9,10 @@ public class Attack : MonoBehaviour
 #if UNITY_EDITOR
     [HideInInspector] public bool foldSettings;
     [HideInInspector] public bool foldWeapon;
+    [HideInInspector] public bool lockAttackType;
+    [HideInInspector] public bool lockWeaponType;
 #endif
 
-    [HideInInspector] public bool lockAttackType;
     [HideInInspector] public IAttackType attackType;
     [HideInInspector] public IWeaponType weaponType;
 
