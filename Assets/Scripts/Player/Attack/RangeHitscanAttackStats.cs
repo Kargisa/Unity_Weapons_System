@@ -6,8 +6,8 @@ using UnityEditor;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "WeaponsSystem/Stats/RangeStats")]
-public class RangeAttackStats : ScriptableObject
+[CreateAssetMenu(menuName = "WeaponsSystem/Stats/RangeHitscanStats")]
+public class RangeHitscanAttackStats : ScriptableObject
 {
     public AttackSettings.RangeHitscan rangeHitscanSettings;
 }

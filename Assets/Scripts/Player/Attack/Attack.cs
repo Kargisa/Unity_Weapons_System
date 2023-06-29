@@ -13,21 +13,31 @@ public class Attack : MonoBehaviour
     [HideInInspector] public bool lockWeaponType;
 #endif
 
-    [HideInInspector] public IAttackType attackType;
-    [HideInInspector] public IWeaponType weaponType;
+    public IAttackType attackType;
+    public IWeaponType weaponType;
 
     [HideInInspector] public AttackType attackT;
-    [HideInInspector] public RangeAttackStats rangeAttackStats;
+    [HideInInspector] public RangeHitscanAttackStats rangeHitscanAttackStats;
+    [HideInInspector] public BulletAttackStats bulletAttackStats;
     [HideInInspector] public MeleeAttackStats meleeAttackStats;
 
 
-    #region Range Weapons
-    //Range Weapons ScriptableObjects
+    #region Range Hitscan Weapons
+    //Range Hitscan Weapons ScriptableObjects
     [HideInInspector]
-    public RangeWeaponType rangeHitscanWeaponType;
+    public RangeHitscanWeaponType rangeHitscanWeaponType;
 
     [HideInInspector]
     public Railgun railgun;
+    #endregion
+
+    #region Range Bullet Weapons
+    //Range Hitscan Weapons ScriptableObjects
+    [HideInInspector]
+    public BulletWeaponType bulletWeaponType;
+
+    [HideInInspector]
+    public Pistol pistol;
     #endregion
 
     #region Melee Weapons
@@ -36,10 +46,10 @@ public class Attack : MonoBehaviour
     public MeleeWeaponType meleeWeaponType;
     #endregion
 
-
+    
     float timeOfLastAttack = 0;
 
-    Vector3 hitPoint;
+    object data;
 
     /// <summary>
     /// The <b>point</b> from where the attack emerges from
@@ -48,9 +58,9 @@ public class Attack : MonoBehaviour
 
     private void OnEnable()
     {
-        if (rangeAttackStats == null)
+        if (rangeHitscanAttackStats == null)
         {
-            Debug.LogError($"No {nameof(rangeAttackStats)} defined");
+            Debug.LogError($"No {nameof(rangeHitscanAttackStats)} defined");
             return;
         }
         InitAttack();
@@ -77,7 +87,11 @@ public class Attack : MonoBehaviour
         switch (attackT)
         {
             case AttackType.RangeHitscan:
-                if (timeBetweenShots <= 60 / rangeAttackStats.rangeHitscanSettings.RPM)
+                if (timeBetweenShots <= 60 / rangeHitscanAttackStats.rangeHitscanSettings.RPM)
+                    return;
+                break;
+            case AttackType.Bullet:
+                if (timeBetweenShots <= 60 / bulletAttackStats.bulletsSettings.RPM)
                     return;
                 break;
             case AttackType.Melee:
@@ -86,8 +100,8 @@ public class Attack : MonoBehaviour
                 break;
         }
 
-        hitPoint = attackType.MakeAttack(attackAnchor);
-        StartCoroutine(weaponType.Animate(attackAnchor, hitPoint));
+        data = attackType.MakeAttack(attackAnchor);
+        StartCoroutine(weaponType.Animate(attackAnchor, data));
         timeOfLastAttack = Time.time;
     }
 

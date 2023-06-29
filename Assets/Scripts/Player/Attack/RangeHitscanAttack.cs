@@ -12,7 +12,7 @@ public class RangeHitscanAttack : IAttackType
         Settings = settings;
     }
 
-    public Vector3 MakeAttack(Transform attackAnchor)
+    public object MakeAttack(Transform attackAnchor)
     {
         Vector3 cameraRayOrigin = Camera.main.transform.position;
         Vector3 cameraRayTargetPoint = Camera.main.transform.forward * Settings.maxFalloffRange + cameraRayOrigin;

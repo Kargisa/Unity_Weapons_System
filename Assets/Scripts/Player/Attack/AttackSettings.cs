@@ -27,9 +27,9 @@ public class AttackSettings
         [Min(0f), Tooltip("The rounds per minute")]
         public float RPM;
         [Header("Range")]
-        [Min(0f), Tooltip("The moment the damage starts to fall off")]
+        [Min(0f), Tooltip("The range the damage starts to fall off")]
         public float minFalloffRange;
-        [Min(0f), Tooltip("The moment the damage has fallen off to zero")]
+        [Min(0f), Tooltip("The range the damage has fallen off to zero")]
         public float maxFalloffRange;
     }
 
@@ -40,9 +40,11 @@ public class AttackSettings
         [Min(0f), Tooltip("The rounds per minute")]
         public float RPM;
         [Header("Range")]
-        [Min(0f), Tooltip("The moment the damage starts to fall off")]
+        [Min(0f), Tooltip("The range the damage starts to fall off")]
         public float minFalloffRange;
-        [Min(0f), Tooltip("The moment the damage has fallen off to zero")]
+        [Min(0f), Tooltip("The range the damage has fallen off to zero")]
         public float maxFalloffRange;
+        [Min(0f), Tooltip("The force the weapon shoots with")]
+        public float force;
     }
 }

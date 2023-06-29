@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80cb83a61a136754c82468536774969d, type: 3}
-  m_Name: Railgun
+  m_Script: {fileID: 11500000, guid: b7e0891ff85dd2042b3cab111afd7b63, type: 3}
+  m_Name: Default
   m_EditorClassIdentifier: 
-  rangeHitscanSettings:
+  bulletsSettings:
     damage: 5
-    RPM: 140
-    minFalloffRange: 10
-    maxFalloffRange: 50
+    RPM: 0
+    minFalloffRange: 0
+    maxFalloffRange: 0
+    force: 0

@@ -37,8 +37,10 @@ public class Railgun : ScriptableObject, IWeaponType
             
     }
 
-    public IEnumerator Animate(Transform attackPoint, Vector3 hitPoint)
+    public IEnumerator Animate(Transform attackPoint, object data)
     {
+        Vector3 hitPoint = (Vector3)data;
+
         _line.enabled = true;
         _line.SetPosition(0, attackPoint.position);
         _line.SetPosition(1, hitPoint);

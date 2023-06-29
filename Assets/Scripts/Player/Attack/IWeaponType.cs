@@ -15,9 +15,9 @@ public interface IWeaponType
     /// Animates the attack
     /// </summary>
     /// <param name="attackPoint">The point from where the attack emits from</param>
-    /// <param name="hitPoint">The point where the attack hit in world space</param>
+    /// <param name="data">The informational data from the attack (hitpoint, velocity, etc)</param>
     /// <returns></returns>
-    public IEnumerator Animate(Transform attackPoint, Vector3 hitPoint);
+    public IEnumerator Animate(Transform attackPoint, object data);
 
     /// <summary>
     /// Destroys the weapons dependencies

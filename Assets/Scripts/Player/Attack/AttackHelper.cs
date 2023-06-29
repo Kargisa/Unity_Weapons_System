@@ -14,8 +14,9 @@ public static class AttackHelper
     {
         return attack.attackT switch
         {
-            AttackType.RangeHitscan => new RangeHitscanAttack(attack.rangeAttackStats.rangeHitscanSettings),
+            AttackType.RangeHitscan => new RangeHitscanAttack(attack.rangeHitscanAttackStats.rangeHitscanSettings),
             AttackType.Melee => new MeleeAttack(attack.meleeAttackStats.meleeSettings),
+            AttackType.Bullet => new BulletAttack(attack.bulletAttackStats.bulletsSettings),
             _ => null,
         };
     }
@@ -31,8 +32,8 @@ public static class AttackHelper
         {
             AttackType.RangeHitscan => attack.rangeHitscanWeaponType switch
             {
-                RangeWeaponType.Railgun => attack.railgun,
-                RangeWeaponType.None => null,
+                RangeHitscanWeaponType.Railgun => attack.railgun,
+                RangeHitscanWeaponType.None => null,
                 _ => null
             },
             AttackType.Melee => attack.meleeWeaponType switch
@@ -40,7 +41,7 @@ public static class AttackHelper
                 MeleeWeaponType.Sword => null,
                 _ => null
             },
-            AttackType.RangeBullets => null,
+            AttackType.Bullet => null,
             _ => null,
         };
     }

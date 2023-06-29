@@ -63,15 +63,16 @@ public class AttackEditor : Editor
         switch (attack.attackT)
         {
             case AttackType.RangeHitscan:
-                attack.rangeHitscanWeaponType = (RangeWeaponType)EditorGUILayout.EnumPopup("Range Hitscan Weapon Type", attack.rangeHitscanWeaponType);
+                attack.rangeHitscanWeaponType = (RangeHitscanWeaponType)EditorGUILayout.EnumPopup("Range Hitscan Weapon Type", attack.rangeHitscanWeaponType);
                 break;
             case AttackType.Melee:
                 attack.meleeWeaponType = (MeleeWeaponType)EditorGUILayout.EnumPopup("Melee Weapon Type", attack.meleeWeaponType);
                 break;
-            case AttackType.RangeBullets:
+            case AttackType.Bullet:
+                attack.bulletWeaponType = (BulletWeaponType)EditorGUILayout.EnumPopup("Bullet Weapon Type", attack.bulletWeaponType);
                 break;
             default:
-                break;
+                throw new System.NotImplementedException($"{attack.attackT} is not implemented");
         }
         GUI.enabled = true;
     }
@@ -101,10 +102,10 @@ public class AttackEditor : Editor
             case AttackType.RangeHitscan:
                 switch (attack.rangeHitscanWeaponType)
                 {
-                    case RangeWeaponType.Railgun:
+                    case RangeHitscanWeaponType.Railgun:
                         DrawObjectField(ref attack.railgun, "Railgun");
                         return;
-                    case RangeWeaponType.None:
+                    case RangeHitscanWeaponType.None:
                         return;
                     default:
                         throw new System.NotImplementedException($"Range weapon of type {attack.rangeHitscanWeaponType} not implemented");
@@ -117,7 +118,15 @@ public class AttackEditor : Editor
                     default:
                         throw new System.NotImplementedException($"Melee weapon of type {attack.meleeWeaponType} not implemented");
                 }
-            case AttackType.RangeBullets:
+            case AttackType.Bullet:
+                switch (attack.bulletWeaponType)
+                {
+                    case BulletWeaponType.Pistol:
+                        DrawObjectField(ref attack.pistol, "Pistol");
+                        return;
+                    default:
+                        break;
+                }
                 return;
             default:
                 throw new System.NotImplementedException($"{attack.attackT} attack type not implemented");
@@ -129,12 +138,13 @@ public class AttackEditor : Editor
         switch (attack.attackT)
         {
             case AttackType.RangeHitscan:
-                DrawObjectField(ref attack.rangeAttackStats, "Range Hitscan Attack Stats");
+                DrawObjectField(ref attack.rangeHitscanAttackStats, "Range Hitscan Attack Stats");
                 break;
             case AttackType.Melee:
                 DrawObjectField(ref attack.meleeAttackStats, "Melee Attack Stats");
                 break;
-            case AttackType.RangeBullets:
+            case AttackType.Bullet:
+                DrawObjectField(ref attack.bulletAttackStats, "Bullet Weapon Stats");
                 break;
             default:
                 throw new System.NotImplementedException($"{attack.attackT} attack type not implemented");
@@ -165,9 +175,9 @@ public class AttackEditor : Editor
             case AttackType.RangeHitscan:
                 return attack.rangeHitscanWeaponType switch
                 {
-                    RangeWeaponType.Railgun => attack.railgun,
-                    RangeWeaponType.None => null,
-                    _ => throw new System.NotImplementedException($"Range weapon of type {attack.rangeHitscanWeaponType} not implemented"),
+                    RangeHitscanWeaponType.Railgun => attack.railgun,
+                    RangeHitscanWeaponType.None => null,
+                    _ => throw new System.NotImplementedException($"Range Hitscan weapon of type {attack.rangeHitscanWeaponType} not implemented"),
                 };
             case AttackType.Melee:
                 return attack.meleeWeaponType switch
@@ -175,8 +185,13 @@ public class AttackEditor : Editor
                     MeleeWeaponType.Sword => null,
                     _ => throw new System.NotImplementedException($"Melee weapon of type {attack.meleeWeaponType} not implemented"),
                 };
-            case AttackType.RangeBullets:
-                throw new System.NotImplementedException($"{AttackType.RangeBullets} not implemented");
+            case AttackType.Bullet:
+                return attack.bulletWeaponType switch
+                {
+                    BulletWeaponType.Pistol => attack.pistol,
+                    BulletWeaponType.None => null,
+                    _ => throw new System.NotImplementedException($"Bullet weapon of type {attack.bulletWeaponType} not implemented"),
+                };
             default:
                 throw new System.NotImplementedException($"{attack.attackT} attack type not implemented");
         }
@@ -186,9 +201,9 @@ public class AttackEditor : Editor
     {
         return attack.attackT switch
         {
-            AttackType.RangeHitscan => attack.rangeAttackStats,
+            AttackType.RangeHitscan => attack.rangeHitscanAttackStats,
             AttackType.Melee => attack.meleeAttackStats,
-            AttackType.RangeBullets => null,
+            AttackType.Bullet => attack.bulletAttackStats,
             _ => throw new System.NotImplementedException($"{attack.attackT} attack type not implemented"),
         };
     }
