@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangeAttack : IAttackType
+public class RangeHitscanAttack : IAttackType
 {
-    public AttackSettings.Range Settings { get; }
+    public AttackSettings.RangeHitscan Settings { get; }
     public IWeaponType Weapon { get; set; }
 
-    public RangeAttack(AttackSettings.Range settings)
+    public RangeHitscanAttack(AttackSettings.RangeHitscan settings)
     {
         Settings = settings;
     }

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
 
-[CreateAssetMenu(menuName="Player/Weapon/Type/Railgun")]
+[CreateAssetMenu(menuName="WeaponsSystem/Type/Railgun")]
 public class Railgun : ScriptableObject, IWeaponType
 {
     public Gradient color;

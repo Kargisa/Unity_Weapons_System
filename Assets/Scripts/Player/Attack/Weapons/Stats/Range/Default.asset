@@ -10,17 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80cb83a61a136754c82468536774969d, type: 3}
-  m_Name: Sword
+  m_Name: Default
   m_EditorClassIdentifier: 
-  attackType: 1
-  range:
+  rangeSettings:
+    damage: 0
+    minFalloffRange: 0
+    maxFalloffRange: 0
+    RPM: 0
+  meleeSettings:
     damage: 5
-    anchor: {fileID: 0}
-    range: 0
-    fireRate: 0
-    weapon: 0
-    railgun: {fileID: 0}
-  melee:
-    damage: 5
-    anchor: {fileID: 0}
-    speed: 1
+    speed: 180

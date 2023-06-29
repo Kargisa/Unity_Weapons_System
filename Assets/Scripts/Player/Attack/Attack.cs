@@ -17,13 +17,14 @@ public class Attack : MonoBehaviour
     [HideInInspector] public IWeaponType weaponType;
 
     [HideInInspector] public AttackType attackT;
-    [HideInInspector] public AttackStats attackStats;
+    [HideInInspector] public RangeAttackStats rangeAttackStats;
+    [HideInInspector] public MeleeAttackStats meleeAttackStats;
 
 
     #region Range Weapons
     //Range Weapons ScriptableObjects
     [HideInInspector]
-    public RangeWeaponType rangeWeaponType;
+    public RangeWeaponType rangeHitscanWeaponType;
 
     [HideInInspector]
     public Railgun railgun;
@@ -47,16 +48,21 @@ public class Attack : MonoBehaviour
 
     private void OnEnable()
     {
-        attackType = attackStats.GenerateAttackType();
-        weaponType = this.GenerateWeapon();
+        if (rangeAttackStats == null)
+        {
+            Debug.LogError($"No {nameof(rangeAttackStats)} defined");
+            return;
+        }
+        InitAttack();
+    }
+    
+    private void InitAttack()
+    {
+        attackType = this.GenerateAttackType();
+        weaponType = this.GetWeapon();
         attackAnchor = transform.Find("AttackAnchor");
         if (attackAnchor == null)
             throw new ArgumentException($"Missing Child of object {name}: AttackAnchor");
-        InitAttack();
-    }
-
-    private void InitAttack()
-    {
         weaponType.Initialize(transform);
     }
 
@@ -68,14 +74,14 @@ public class Attack : MonoBehaviour
     {
         float timeBetweenShots = Time.time - timeOfLastAttack;
 
-        switch (attackStats.attackType)
+        switch (attackT)
         {
-            case AttackType.Range:
-                if (timeBetweenShots <= 60 / attackStats.rangeSettings.RPM)
+            case AttackType.RangeHitscan:
+                if (timeBetweenShots <= 60 / rangeAttackStats.rangeHitscanSettings.RPM)
                     return;
                 break;
             case AttackType.Melee:
-                if (timeBetweenShots <= 60 / attackStats.meleeSettings.speed)
+                if (timeBetweenShots <= 60 / meleeAttackStats.meleeSettings.speed)
                     return;
                 break;
         }

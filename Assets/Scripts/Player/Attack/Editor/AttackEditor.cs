@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -10,6 +11,7 @@ public class AttackEditor : Editor
     Editor settings;
     Editor editor;
     Object weaponObj;
+    Object statsObj;
 
     private void OnEnable()
     {
@@ -21,17 +23,16 @@ public class AttackEditor : Editor
         base.OnInspectorGUI();
 
         //Draws and locks the attack type in the inspector
-        ToggleAttackSelection();
-        DrawObjectField(ref attack.attackStats, "Attack Stats");
+        ToggleStatsSelection();
+        DrawStatsType();
+        statsObj = GetStatsObject();
+        DrawEditor(statsObj, ref settings, ref attack.foldSettings);
 
-
-        DrawEditor(attack.attackStats, ref settings, ref attack.foldSettings);
-
-        weaponObj = GetWeaponObject();
         EditorGUILayout.Space();
 
         ToggleWeaponSelection();
         DrawWeaponType();
+        weaponObj = GetWeaponObject();
         DrawEditor(weaponObj, ref editor, ref attack.foldWeapon);
     }
 
@@ -39,18 +40,15 @@ public class AttackEditor : Editor
     /// <summary>
     /// Draws the <c>AttackType</c> enum and locks it depending on the lock <c>bool</c>
     /// </summary>
-    private void ToggleAttackSelection()
+    private void ToggleStatsSelection()
     {
         attack.lockAttackType = EditorGUILayout.Toggle("Lock Attack Type", attack.lockAttackType);
 
         if (attack.lockAttackType)
-        {
             GUI.enabled = false;
-            attack.attackT = (AttackType)EditorGUILayout.EnumPopup("Attack Type", attack.attackT);
-            GUI.enabled = true;
-        }
-        else
-            attack.attackT = (AttackType)EditorGUILayout.EnumPopup("Attack Type", attack.attackT);
+        
+        attack.attackT = (AttackType)EditorGUILayout.EnumPopup("Attack Type", attack.attackT);
+        GUI.enabled = true;
     }
 
     /// <summary>
@@ -62,12 +60,19 @@ public class AttackEditor : Editor
 
         if (attack.lockWeaponType)
             GUI.enabled = false;
-
-        if (attack.attackT == AttackType.Range)
-            attack.rangeWeaponType = (RangeWeaponType)EditorGUILayout.EnumPopup("Range Weapon Type", attack.rangeWeaponType);
-        else
-            attack.meleeWeaponType = (MeleeWeaponType)EditorGUILayout.EnumPopup("Melee Weapon Type", attack.meleeWeaponType);
-
+        switch (attack.attackT)
+        {
+            case AttackType.RangeHitscan:
+                attack.rangeHitscanWeaponType = (RangeWeaponType)EditorGUILayout.EnumPopup("Range Hitscan Weapon Type", attack.rangeHitscanWeaponType);
+                break;
+            case AttackType.Melee:
+                attack.meleeWeaponType = (MeleeWeaponType)EditorGUILayout.EnumPopup("Melee Weapon Type", attack.meleeWeaponType);
+                break;
+            case AttackType.RangeBullets:
+                break;
+            default:
+                break;
+        }
         GUI.enabled = true;
     }
 
@@ -93,8 +98,8 @@ public class AttackEditor : Editor
     {
         switch (attack.attackT)
         {
-            case AttackType.Range:
-                switch (attack.rangeWeaponType)
+            case AttackType.RangeHitscan:
+                switch (attack.rangeHitscanWeaponType)
                 {
                     case RangeWeaponType.Railgun:
                         DrawObjectField(ref attack.railgun, "Railgun");
@@ -102,8 +107,7 @@ public class AttackEditor : Editor
                     case RangeWeaponType.None:
                         return;
                     default:
-                        Debug.LogWarning($"Range weapon of type {attack.rangeWeaponType} not implemented");
-                        return;
+                        throw new System.NotImplementedException($"Range weapon of type {attack.rangeHitscanWeaponType} not implemented");
                 }
             case AttackType.Melee:
                 switch (attack.meleeWeaponType)
@@ -111,28 +115,45 @@ public class AttackEditor : Editor
                     case MeleeWeaponType.Sword:
                         return;
                     default:
-                        Debug.LogWarning($"Melee weapon of type {attack.meleeWeaponType} not implemented");
-                        return;
+                        throw new System.NotImplementedException($"Melee weapon of type {attack.meleeWeaponType} not implemented");
                 }
-            default:
-                Debug.LogWarning($"{attack.attackT} attack type not implemented");
+            case AttackType.RangeBullets:
                 return;
+            default:
+                throw new System.NotImplementedException($"{attack.attackT} attack type not implemented");
         }
     }
 
-    private void DrawEditor(Object attack, ref Editor editor, ref bool fold)
+    private void DrawStatsType()
     {
-        if (attack == null)
+        switch (attack.attackT)
+        {
+            case AttackType.RangeHitscan:
+                DrawObjectField(ref attack.rangeAttackStats, "Range Hitscan Attack Stats");
+                break;
+            case AttackType.Melee:
+                DrawObjectField(ref attack.meleeAttackStats, "Melee Attack Stats");
+                break;
+            case AttackType.RangeBullets:
+                break;
+            default:
+                throw new System.NotImplementedException($"{attack.attackT} attack type not implemented");
+        }
+    }
+
+    private void DrawEditor(Object obj, ref Editor editor, ref bool fold)
+    {
+        if (obj == null)
             return;
 
-        fold = EditorGUILayout.InspectorTitlebar(fold, attack);
+        fold = EditorGUILayout.InspectorTitlebar(fold, obj);
 
         if (!fold)
             return;
 
         using (var check = new EditorGUI.ChangeCheckScope())
         {
-            CreateCachedEditor(attack, null, ref editor);
+            CreateCachedEditor(obj, null, ref editor);
             editor.OnInspectorGUI();
         }
     }
@@ -141,29 +162,34 @@ public class AttackEditor : Editor
     {
         switch (attack.attackT)
         {
-            case AttackType.Range:
-                switch (attack.rangeWeaponType)
+            case AttackType.RangeHitscan:
+                return attack.rangeHitscanWeaponType switch
                 {
-                    case RangeWeaponType.Railgun:
-                        return attack.railgun;
-                    case RangeWeaponType.None:
-                        return null;
-                    default:
-                        Debug.LogWarning($"Range weapon of type {attack.rangeWeaponType} not implemented");
-                        return null;
-                }
+                    RangeWeaponType.Railgun => attack.railgun,
+                    RangeWeaponType.None => null,
+                    _ => throw new System.NotImplementedException($"Range weapon of type {attack.rangeHitscanWeaponType} not implemented"),
+                };
             case AttackType.Melee:
-                switch (attack.meleeWeaponType)
+                return attack.meleeWeaponType switch
                 {
-                    case MeleeWeaponType.Sword:
-                        return null;
-                    default:
-                        Debug.LogWarning($"Melee weapon of type {attack.meleeWeaponType} not implemented");
-                        return null;
-                }
+                    MeleeWeaponType.Sword => null,
+                    _ => throw new System.NotImplementedException($"Melee weapon of type {attack.meleeWeaponType} not implemented"),
+                };
+            case AttackType.RangeBullets:
+                throw new System.NotImplementedException($"{AttackType.RangeBullets} not implemented");
             default:
-                Debug.LogWarning($"{attack.attackT} attack type not implemented");
-                return null;
+                throw new System.NotImplementedException($"{attack.attackT} attack type not implemented");
         }
+    }
+
+    private Object GetStatsObject()
+    {
+        return attack.attackT switch
+        {
+            AttackType.RangeHitscan => attack.rangeAttackStats,
+            AttackType.Melee => attack.meleeAttackStats,
+            AttackType.RangeBullets => null,
+            _ => throw new System.NotImplementedException($"{attack.attackT} attack type not implemented"),
+        };
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum AttackType
 {
-    Range,
+    RangeHitscan,
+    RangeBullets,
     Melee
 }

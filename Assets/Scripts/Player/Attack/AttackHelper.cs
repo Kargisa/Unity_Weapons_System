@@ -5,36 +5,44 @@ using UnityEngine;
 
 public static class AttackHelper
 {
-    public static IAttackType GenerateAttackType(this AttackStats stats)
+    /// <summary>
+    /// Generates a new <c>IAttackType</c> depending on the <c>AttackType</c> in the <c>AttackStats</c>
+    /// </summary>
+    /// <param name="attack">The attack </param>
+    /// <returns>A new <c>IAttackType</c></returns>
+    public static IAttackType GenerateAttackType(this Attack attack)
     {
-        return stats.attackType switch
+        return attack.attackT switch
         {
-            AttackType.Range => new RangeAttack(stats.rangeSettings),
-            AttackType.Melee => new MeleeAttack(stats.meleeSettings),
+            AttackType.RangeHitscan => new RangeHitscanAttack(attack.rangeAttackStats.rangeHitscanSettings),
+            AttackType.Melee => new MeleeAttack(attack.meleeAttackStats.meleeSettings),
             _ => null,
         };
     }
 
-    public static IWeaponType GenerateWeapon(this Attack attack)
+    /// <summary>
+    /// Gets the <c>IWeaponType</c> of the <c>Attack</c>
+    /// </summary>
+    /// <param name="attack">The attack from where the weapon comes from</param>
+    /// <returns>The specific <c>IWeaponType</c> from the given <c>Attack</c></returns>
+    public static IWeaponType GetWeapon(this Attack attack)
     {
-        switch (attack.attackT)
+        return attack.attackT switch
         {
-            case AttackType.Range:
-                return attack.rangeWeaponType switch
-                {
-                    RangeWeaponType.Railgun => attack.railgun,
-                    RangeWeaponType.None => null,
-                    _ => null
-                };
-            case AttackType.Melee:
-                return attack.meleeWeaponType switch
-                {
-                    MeleeWeaponType.Sword => null,
-                    _ => null
-                };
-            default:
-                return null;
-        }
+            AttackType.RangeHitscan => attack.rangeHitscanWeaponType switch
+            {
+                RangeWeaponType.Railgun => attack.railgun,
+                RangeWeaponType.None => null,
+                _ => null
+            },
+            AttackType.Melee => attack.meleeWeaponType switch
+            {
+                MeleeWeaponType.Sword => null,
+                _ => null
+            },
+            AttackType.RangeBullets => null,
+            _ => null,
+        };
     }
 
 }

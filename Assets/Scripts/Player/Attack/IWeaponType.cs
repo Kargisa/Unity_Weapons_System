@@ -20,7 +20,7 @@ public interface IWeaponType
     public IEnumerator Animate(Transform attackPoint, Vector3 hitPoint);
 
     /// <summary>
-    /// Destroys the weapon
+    /// Destroys the weapons dependencies
     /// </summary>
     public void Destroy();
 }
