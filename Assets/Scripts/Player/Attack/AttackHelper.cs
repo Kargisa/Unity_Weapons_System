@@ -33,16 +33,20 @@ public static class AttackHelper
             AttackType.RangeHitscan => attack.rangeHitscanWeaponType switch
             {
                 RangeHitscanWeaponType.Railgun => attack.railgun,
-                RangeHitscanWeaponType.None => null,
-                _ => null
+                RangeHitscanWeaponType.None => throw new System.NotImplementedException(),
+                _ => throw new System.NotImplementedException($"{attack.rangeHitscanWeaponType} not implemeted")
             },
             AttackType.Melee => attack.meleeWeaponType switch
             {
-                MeleeWeaponType.Sword => null,
-                _ => null
+                MeleeWeaponType.Sword => throw new System.NotImplementedException(),
+                _ => throw new System.NotImplementedException($"{attack.meleeWeaponType} not implemeted")
             },
-            AttackType.Bullet => null,
-            _ => null,
+            AttackType.Bullet => attack.bulletWeaponType switch
+            {
+                BulletWeaponType.Pistol => attack.pistol,
+                _ => throw new System.NotImplementedException($"{attack.bulletWeaponType} not implemeted")
+            },
+            _ => throw new NotImplementedException()
         };
     }
 

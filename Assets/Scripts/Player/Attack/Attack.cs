@@ -58,14 +58,14 @@ public class Attack : MonoBehaviour
 
     private void OnEnable()
     {
-        if (rangeHitscanAttackStats == null)
-        {
-            Debug.LogError($"No {nameof(rangeHitscanAttackStats)} defined");
-            return;
-        }
         InitAttack();
     }
-    
+
+    private void Update()
+    {
+        AlignAttackAnchor();
+    }
+
     private void InitAttack()
     {
         attackType = this.GenerateAttackType();
@@ -76,6 +76,10 @@ public class Attack : MonoBehaviour
         weaponType.Initialize(transform);
     }
 
+    private void AlignAttackAnchor()
+    {
+        
+    }
 
     /// <summary>
     /// Makes Attack and Animation using the current <b>AttackType</b> and <b>WeaponType</b>

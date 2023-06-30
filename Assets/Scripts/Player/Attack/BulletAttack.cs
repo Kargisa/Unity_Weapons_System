@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class BulletAttack : IAttackType
 {
-    public AttackSettings.Bullets BulletsSettings { get; }
+    public AttackSettings.Bullets Settings { get; }
 
 
     public BulletAttack(AttackSettings.Bullets bulletsSettings)
     {
-        BulletsSettings = bulletsSettings;
+        Settings = bulletsSettings;
     }
 
     public object MakeAttack(Transform attackAnchor)
     {
-        GameObject bullet = new GameObject("Bullet");
-        Rigidbody rb = bullet.AddComponent<Rigidbody>();
-        bullet.AddComponent<Bullet>();
+        Vector3 cameraRayOrigin = Camera.main.transform.position;
+        Vector3 cameraRayTargetPoint = Camera.main.transform.forward * Settings.maxFalloffRange + cameraRayOrigin;
 
-        rb.AddRelativeForce(Vector3.forward * BulletsSettings.force, ForceMode.VelocityChange);
+        Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
+        bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, Settings.maxFalloffRange);
 
-        return bullet;
+        Debug.Log(cameraHit.point);
+
+        if (didCameraHit)
+            return (cameraHit.point - attackAnchor.position).normalized * Settings.force;
+
+        return (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.force;
     }
 }

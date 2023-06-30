@@ -14,10 +14,10 @@ public interface IWeaponType
     /// <summary>
     /// Animates the attack
     /// </summary>
-    /// <param name="attackPoint">The point from where the attack emits from</param>
+    /// <param name="attackTransform">The point from where the attack emits from</param>
     /// <param name="data">The informational data from the attack (hitpoint, velocity, etc)</param>
     /// <returns></returns>
-    public IEnumerator Animate(Transform attackPoint, object data);
+    public IEnumerator Animate(Transform attackTransform, object data);
 
     /// <summary>
     /// Destroys the weapons dependencies

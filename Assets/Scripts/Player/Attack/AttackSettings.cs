@@ -39,6 +39,8 @@ public class AttackSettings
         [Header("Passives")]
         [Min(0f), Tooltip("The rounds per minute")]
         public float RPM;
+        [Min(0f), Tooltip("The time the bullet lives in seconds")]
+        public float ttl;
         [Header("Range")]
         [Min(0f), Tooltip("The range the damage starts to fall off")]
         public float minFalloffRange;
