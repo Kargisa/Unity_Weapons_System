@@ -14,6 +14,9 @@ public interface IAttackType
     /// <summary>
     /// Calculates the damage to a target
     /// </summary>
-    /// <returns>The amount of damage to be dealt</returns>
-    public float OnDamageDealt(Vector3 origin, Vector3 hitpoint);
+    /// <param name="origin">The origin of the attack</param>
+    /// <param name="hitpoint">The point where the attack hit</param>
+    /// <returns>The damage that will be dealt to a target</returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public float CalculateDamage(Vector3 origin, Vector3 hitpoint);
 }

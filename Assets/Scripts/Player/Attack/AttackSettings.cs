@@ -27,9 +27,9 @@ public class AttackSettings
         [Min(0f), Tooltip("The rounds per minute")]
         public float RPM;
         [Header("Range")]
-        [Min(0f), Tooltip("The range the damage starts to fall off")]
+        [Min(0f), Tooltip("The distance at witch the damage starts to fall off")]
         public float minFalloffRange;
-        [Min(0f), Tooltip("The range the damage has fallen off to zero")]
+        [Min(0f), Tooltip("The distance at witch the damage has fallen off to the lowest value in the curve")]
         public float maxFalloffRange;
         [Tooltip("The curve that determines the falloff of the damage")]
         public AnimationCurve falloffCurve;
@@ -42,11 +42,11 @@ public class AttackSettings
         [Min(0f), Tooltip("The rounds per minute")]
         public float RPM;
         [Min(0f), Tooltip("The time to live of the bullet")]
-        public float ttl;
+        public float ttl = 30f;
         [Header("Range")]
-        [Min(0f), Tooltip("The range the damage starts to fall off")]
+        [Min(0f), Tooltip("The distance at witch the damage starts to fall off")]
         public float minFalloffRange;
-        [Min(0f), Tooltip("The range the damage has fallen off to zero")]
+        [Min(0f), Tooltip("The distance at witch the damage has fallen off to the lowest value in the curve")]
         public float maxFalloffRange;
         [Tooltip("The curve that determines the falloff of the damage")]
         public AnimationCurve falloffCurve;

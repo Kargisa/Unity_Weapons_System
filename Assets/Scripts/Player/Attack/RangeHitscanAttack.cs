@@ -30,11 +30,27 @@ public class RangeHitscanAttack : IAttackType
         if (!didWeaponHit)
             return cameraHit.point;
 
+        float damage = CalculateDamage(attackAnchor.position, weaponHit.point);
+        
+        Debug.Log(damage);
+
         return weaponHit.point;
     }
 
-    public float OnDamageDealt(Vector3 origin, Vector3 hitpoint)
+    public float CalculateDamage(Vector3 origin, Vector3 hitpoint)
     {
-        throw new System.NotImplementedException();
+        float distance = Vector3.Distance(origin, hitpoint);
+
+        if (distance <= Settings.minFalloffRange)
+            return Settings.damage;
+        if (distance >= Settings.maxFalloffRange)
+            return 0f;
+
+        //Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
+
+        float y = Settings.falloffCurve.Evaluate((distance - Settings.minFalloffRange) / (Settings.maxFalloffRange - Settings.minFalloffRange));
+        float damage = y * Settings.damage;
+
+        return damage;
     }
 }

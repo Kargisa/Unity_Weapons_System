@@ -16,20 +16,20 @@ public class BulletData
     /// <summary>
     /// The origin of the bullet.
     /// </summary>
-    public Vector3 Origin { get; set; }
+    public Vector3 Origin { get; }
 
     /// <summary>
     /// The time to live of the bullet.
     /// </summary>
-    public float TTL { get; set; }
+    public float TTL { get; }
 
     /// <summary>
     /// The force of the bullet.
     /// </summary>
-    public Vector3 Force { get; set; }
+    public Vector3 Force { get; }
 
     /// <summary>
     /// Calculates the damage to a target
     /// </summary>
-    public Func<Vector3, Vector3, float> OnDamageDealt { get; set; }
+    public Func<Vector3, Vector3, float> OnDamageDealt { get; }
 }

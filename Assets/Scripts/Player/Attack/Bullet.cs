@@ -20,6 +20,9 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (bulletData == null)
+            return;
+
         float damage = bulletData.OnDamageDealt(bulletData.Origin, collision.GetContact(0).point);
         Debug.Log(damage);
         Destroy(gameObject);

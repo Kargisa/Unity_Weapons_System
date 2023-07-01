@@ -26,21 +26,21 @@ public class BulletAttack : IAttackType
         else
             force = (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.force;
 
-        return new BulletData(Settings.ttl, force, attackAnchor.position, OnDamageDealt);
+        return new BulletData(Settings.ttl, force, attackAnchor.position, CalculateDamage);
     }
 
-    public float OnDamageDealt(Vector3 origin, Vector3 hitpoint)
+    public float CalculateDamage(Vector3 origin, Vector3 hitpoint)
     {
         float distance = Vector3.Distance(origin, hitpoint);
 
-        Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
+        //Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
 
         if (distance <= Settings.minFalloffRange)
             return Settings.damage;
         if (distance >= Settings.maxFalloffRange)
             return 0f;
 
-        float y = Settings.falloffCurve.Evaluate(distance / Settings.maxFalloffRange);
+        float y = Settings.falloffCurve.Evaluate((distance - Settings.minFalloffRange) / (Settings.maxFalloffRange - Settings.minFalloffRange));
         float damage = y * Settings.damage;
 
         return damage;
