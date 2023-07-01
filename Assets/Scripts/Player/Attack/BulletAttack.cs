@@ -6,7 +6,6 @@ public class BulletAttack : IAttackType
 {
     public AttackSettings.Bullets Settings { get; }
 
-
     public BulletAttack(AttackSettings.Bullets bulletsSettings)
     {
         Settings = bulletsSettings;
@@ -20,11 +19,30 @@ public class BulletAttack : IAttackType
         Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
         bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, Settings.maxFalloffRange);
 
-        Debug.Log(cameraHit.point);
-
+        Vector3 force;
+        
         if (didCameraHit)
-            return (cameraHit.point - attackAnchor.position).normalized * Settings.force;
+            force = (cameraHit.point - attackAnchor.position).normalized * Settings.force;
+        else
+            force = (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.force;
 
-        return (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.force;
+        return new BulletData(Settings.ttl, force, attackAnchor.position, OnDamageDealt);
+    }
+
+    public float OnDamageDealt(Vector3 origin, Vector3 hitpoint)
+    {
+        float distance = Vector3.Distance(origin, hitpoint);
+
+        Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
+
+        if (distance <= Settings.minFalloffRange)
+            return Settings.damage;
+        if (distance >= Settings.maxFalloffRange)
+            return 0f;
+
+        float y = Settings.falloffCurve.Evaluate(distance / Settings.maxFalloffRange);
+        float damage = y * Settings.damage;
+
+        return damage;
     }
 }

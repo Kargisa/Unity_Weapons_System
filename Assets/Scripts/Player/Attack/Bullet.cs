@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private void Start()
+    BulletData bulletData;
+
+    public void Initalize(object data)
     {
-        Destroy(gameObject, 5f);
+        bulletData = (BulletData)data;
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        rb.useGravity = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.AddForce(bulletData.Force);
+
+        Destroy(gameObject, bulletData.TTL);
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        float damage = bulletData.OnDamageDealt(bulletData.Origin, collision.GetContact(0).point);
+        Debug.Log(damage);
         Destroy(gameObject);
     }
 }

@@ -32,4 +32,9 @@ public class RangeHitscanAttack : IAttackType
 
         return weaponHit.point;
     }
+
+    public float OnDamageDealt(Vector3 origin, Vector3 hitpoint)
+    {
+        throw new System.NotImplementedException();
+    }
 }

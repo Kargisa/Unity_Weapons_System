@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c7781444841c7a44b7dbc1d1c72ab11, type: 3}
   m_Name: Sussy_pistol
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 4034130362376416873, guid: bfe28e0764bd8194aa6666c7e5a6420f,
+    type: 3}

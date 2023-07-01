@@ -9,13 +9,12 @@ public class Pistol : ScriptableObject, IWeaponType
 
     public IEnumerator Animate(Transform attackPoint, object data)
     {
-        Vector3 force = (Vector3)data;
+        BulletData bulletData = (BulletData)data;
 
         GameObject bullet = Instantiate(bulletPrefab, attackPoint.position, attackPoint.rotation);
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.AddForce(force);
-        rb.useGravity = false;
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        Bullet bl = bullet.GetComponent<Bullet>();
+        
+        bl.Initalize(data);
 
         yield return null;
     }

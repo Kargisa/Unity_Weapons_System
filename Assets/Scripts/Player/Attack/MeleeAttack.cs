@@ -15,4 +15,9 @@ public class MeleeAttack : IAttackType
     {
         throw new System.NotImplementedException();
     }
+
+    public float OnDamageDealt(Vector3 origin, Vector3 hitpoint)
+    {
+        throw new System.NotImplementedException();
+    }
 }
