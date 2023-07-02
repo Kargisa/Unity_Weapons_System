@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "WeaponsSystem/Stats/MeleeStats")]
-public class MeleeAttackStats : ScriptableObject
+public class MeleeHitscanAttackStats : ScriptableObject
 {
-    public AttackSettings.Melee meleeSettings;
+    public AttackSettings.HitScanMelee meleeHitscanSettings;
 }

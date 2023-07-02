@@ -21,9 +21,12 @@ public class AttackEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
+
+        attack.fullauto = EditorGUILayout.Toggle("Fullauto", attack.fullauto);
+
         EditorGUILayout.LabelField("Attack Settings", EditorStyles.boldLabel);
-        DrawToggelField(ref attack.fullauto, "Fullauto");
 
         //Draws and locks the attack type in the inspector
         ToggleStatsSelection();
@@ -68,8 +71,8 @@ public class AttackEditor : Editor
             case AttackType.RangeHitscan:
                 attack.rangeHitscanWeaponType = (RangeHitscanWeaponType)EditorGUILayout.EnumPopup("Range Hitscan Weapon Type", attack.rangeHitscanWeaponType);
                 break;
-            case AttackType.Melee:
-                attack.meleeWeaponType = (MeleeWeaponType)EditorGUILayout.EnumPopup("Melee Weapon Type", attack.meleeWeaponType);
+            case AttackType.MeleeHitscan:
+                attack.meleeHitscanWeaponType = (MeleeHitscanWeaponType)EditorGUILayout.EnumPopup("Melee Hitscan Weapon Type", attack.meleeHitscanWeaponType);
                 break;
             case AttackType.Bullet:
                 attack.bulletWeaponType = (BulletWeaponType)EditorGUILayout.EnumPopup("Bullet Weapon Type", attack.bulletWeaponType);
@@ -112,13 +115,16 @@ public class AttackEditor : Editor
                     default:
                         throw new System.NotImplementedException($"Range weapon of type {attack.rangeHitscanWeaponType} not implemented");
                 }
-            case AttackType.Melee:
-                switch (attack.meleeWeaponType)
+            case AttackType.MeleeHitscan:
+                switch (attack.meleeHitscanWeaponType)
                 {
-                    case MeleeWeaponType.Sword:
+                    case MeleeHitscanWeaponType.Knife:
+                        DrawObjectField(ref attack.knife, "Sword");
+                        return;
+                    case MeleeHitscanWeaponType.None:
                         return;
                     default:
-                        throw new System.NotImplementedException($"Melee weapon of type {attack.meleeWeaponType} not implemented");
+                        throw new System.NotImplementedException($"Melee weapon of type {attack.meleeHitscanWeaponType} not implemented");
                 }
             case AttackType.Bullet:
                 switch (attack.bulletWeaponType)
@@ -126,10 +132,11 @@ public class AttackEditor : Editor
                     case BulletWeaponType.Pistol:
                         DrawObjectField(ref attack.pistol, "Pistol");
                         return;
+                    case BulletWeaponType.None:
+                        return;
                     default:
-                        break;
+                        throw new System.NotImplementedException($"Bullet weapon of type {attack.bulletWeaponType} not implemented");
                 }
-                return;
             default:
                 throw new System.NotImplementedException($"{attack.attackT} attack type not implemented");
         }
@@ -142,7 +149,7 @@ public class AttackEditor : Editor
             case AttackType.RangeHitscan:
                 DrawObjectField(ref attack.rangeHitscanAttackStats, "Range Hitscan Attack Stats");
                 break;
-            case AttackType.Melee:
+            case AttackType.MeleeHitscan:
                 DrawObjectField(ref attack.meleeAttackStats, "Melee Attack Stats");
                 break;
             case AttackType.Bullet:
@@ -170,24 +177,6 @@ public class AttackEditor : Editor
         }
     }
 
-    /// <summary>
-    /// Draws a Toggel field
-    /// </summary>
-    /// <param name="field">True or False</param>
-    /// <param name="name">Name of the field</param>
-    private void DrawToggelField(ref bool field, string name)
-    {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField(name);
-
-        Rect offsetRect = EditorGUILayout.GetControlRect();
-        offsetRect.x -= EditorGUIUtility.fieldWidth * 1.11f;
-        offsetRect.width -= EditorGUIUtility.fieldWidth;
-        field = EditorGUI.Toggle(offsetRect, field);
-        field = EditorGUILayout.Toggle(field);
-        EditorGUILayout.EndHorizontal();
-    }
-
     private Object GetWeaponObject()
     {
         switch (attack.attackT)
@@ -199,11 +188,12 @@ public class AttackEditor : Editor
                     RangeHitscanWeaponType.None => null,
                     _ => throw new System.NotImplementedException($"Range Hitscan weapon of type {attack.rangeHitscanWeaponType} not implemented"),
                 };
-            case AttackType.Melee:
-                return attack.meleeWeaponType switch
+            case AttackType.MeleeHitscan:
+                return attack.meleeHitscanWeaponType switch
                 {
-                    MeleeWeaponType.Sword => null,
-                    _ => throw new System.NotImplementedException($"Melee weapon of type {attack.meleeWeaponType} not implemented"),
+                    MeleeHitscanWeaponType.Knife => attack.knife,
+                    MeleeHitscanWeaponType.None => null,
+                    _ => throw new System.NotImplementedException($"Melee weapon of type {attack.meleeHitscanWeaponType} not implemented"),
                 };
             case AttackType.Bullet:
                 return attack.bulletWeaponType switch
@@ -222,7 +212,7 @@ public class AttackEditor : Editor
         return attack.attackT switch
         {
             AttackType.RangeHitscan => attack.rangeHitscanAttackStats,
-            AttackType.Melee => attack.meleeAttackStats,
+            AttackType.MeleeHitscan => attack.meleeAttackStats,
             AttackType.Bullet => attack.bulletAttackStats,
             _ => throw new System.NotImplementedException($"{attack.attackT} attack type not implemented"),
         };

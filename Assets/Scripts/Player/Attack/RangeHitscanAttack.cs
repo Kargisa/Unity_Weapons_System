@@ -23,18 +23,9 @@ public class RangeHitscanAttack : IAttackType
         if (!didCameraHit)
             return cameraRayTargetPoint;
 
-        Ray weaponRay = new Ray(attackAnchor.position, (cameraHit.point - attackAnchor.position).normalized);
-
-        bool didWeaponHit = Physics.Raycast(weaponRay, out RaycastHit weaponHit, Settings.maxFalloffRange);
-
-        if (!didWeaponHit)
-            return cameraHit.point;
-
-        float damage = CalculateDamage(attackAnchor.position, weaponHit.point);
+        float damage = CalculateDamage(cameraRayOrigin, cameraHit.point);
         
-        Debug.Log(damage);
-
-        return weaponHit.point;
+        return cameraHit.point;
     }
 
     public float CalculateDamage(Vector3 origin, Vector3 hitpoint)

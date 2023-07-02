@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MeleeWeaponType
+public enum MeleeHitscanWeaponType
 {
-    Sword
+    Knife,
+    None
 }

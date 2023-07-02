@@ -13,6 +13,8 @@ public class Railgun : ScriptableObject, IWeaponType
     [Min(0f)]
     public float endWidth;
 
+    public Material lineMaterial;
+
     [HideInInspector] public GameObject railgunLine;
 
     private LineRenderer _line;
@@ -29,7 +31,15 @@ public class Railgun : ScriptableObject, IWeaponType
         _line.startWidth = startWidth;
         _line.endWidth = endWidth;
         _line.positionCount = 2;
-        _line.material = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
+
+        if (lineMaterial == null)
+        {
+            Debug.LogWarning($"{nameof(lineMaterial)} set to null, using default material");
+            _line.material = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
+        }
+        else
+            _line.material = lineMaterial;
+
         _line.enabled = false;
 
         railgunLine.transform.parent = parent;

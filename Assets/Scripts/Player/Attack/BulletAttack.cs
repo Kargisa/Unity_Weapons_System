@@ -26,7 +26,7 @@ public class BulletAttack : IAttackType
         else
             force = (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.force;
 
-        return new BulletData(Settings.ttl, force, attackAnchor.position, CalculateDamage);
+        return new BulletData(Settings.ttl, force, cameraRayOrigin, CalculateDamage);
     }
 
     public float CalculateDamage(Vector3 origin, Vector3 hitpoint)

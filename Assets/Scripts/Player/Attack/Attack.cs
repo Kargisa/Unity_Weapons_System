@@ -19,7 +19,7 @@ public class Attack : MonoBehaviour
     [HideInInspector] public AttackType attackT;
     [HideInInspector] public RangeHitscanAttackStats rangeHitscanAttackStats;
     [HideInInspector] public BulletAttackStats bulletAttackStats;
-    [HideInInspector] public MeleeAttackStats meleeAttackStats;
+    [HideInInspector] public MeleeHitscanAttackStats meleeAttackStats;
 
     [HideInInspector] public bool fullauto = false;
 
@@ -41,10 +41,13 @@ public class Attack : MonoBehaviour
     public Pistol pistol;
     #endregion
 
-    #region Melee Weapons
+    #region Melee Hitscan Weapons
     //Melee Weapons ScriptableObjects
     [HideInInspector]
-    public MeleeWeaponType meleeWeaponType;
+    public MeleeHitscanWeaponType meleeHitscanWeaponType;
+
+    [HideInInspector]
+    public Knife knife;
     #endregion
 
     
@@ -89,8 +92,8 @@ public class Attack : MonoBehaviour
                 if (timeBetweenShots <= 60 / bulletAttackStats.bulletsSettings.RPM)
                     return;
                 break;
-            case AttackType.Melee:
-                if (timeBetweenShots <= 60 / meleeAttackStats.meleeSettings.speed)
+            case AttackType.MeleeHitscan:
+                if (timeBetweenShots <= 60 / meleeAttackStats.meleeHitscanSettings.speed)
                     return;
                 break;
         }

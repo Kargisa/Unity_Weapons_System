@@ -6,5 +6,5 @@ public enum AttackType
 {
     RangeHitscan,
     Bullet,
-    Melee
+    MeleeHitscan
 }

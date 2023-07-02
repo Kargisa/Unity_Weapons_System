@@ -13,7 +13,6 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         InputManager.Instance.InputActions.Main.Enable();
-        //InputManager.Instance.InputActions.Main.Shoot.performed += Attack_Main;
     }
 
     private void Update()
@@ -34,12 +33,5 @@ public class WeaponController : MonoBehaviour
         holdMainAttack = true;
 
         weapon_main.MakeAttack();
-    }
-
-    //Rotate weapon to camera maby using unit circle
-
-    private void OnDestroy()
-    {
-        //InputManager.Instance.InputActions.Main.Shoot.performed -= Attack_Main;
     }
 }
