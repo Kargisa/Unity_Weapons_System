@@ -48,7 +48,8 @@ public class RangeHitscanAttack : IAttackType
 
         //Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
 
-        float y = Settings.falloffCurve.Evaluate((distance - Settings.minFalloffRange) / (Settings.maxFalloffRange - Settings.minFalloffRange));
+        float pointOnCurve = (distance - Settings.minFalloffRange) / (Settings.maxFalloffRange - Settings.minFalloffRange);
+        float y = Settings.falloffCurve.Evaluate(pointOnCurve);
         float damage = y * Settings.damage;
 
         return damage;

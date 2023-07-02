@@ -21,6 +21,8 @@ public class AttackEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Attack Settings", EditorStyles.boldLabel);
 
         //Draws and locks the attack type in the inspector
         ToggleStatsSelection();

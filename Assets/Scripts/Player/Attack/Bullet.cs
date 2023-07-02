@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
             return;
 
         float damage = bulletData.OnDamageDealt(bulletData.Origin, collision.GetContact(0).point);
-        Debug.Log(damage);
+
         Destroy(gameObject);
     }
 }

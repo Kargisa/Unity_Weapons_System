@@ -17,7 +17,7 @@ public class AttackSettings
     {
         [Header("Passives")]
         [Min(0f), Tooltip("The attacks per minute")]
-        public float speed;
+        public float speed = 200f;
     }
 
     [System.Serializable]
@@ -25,12 +25,12 @@ public class AttackSettings
     {
         [Header("Passives")]
         [Min(0f), Tooltip("The rounds per minute")]
-        public float RPM;
+        public float RPM = 140f;
         [Header("Range")]
         [Min(0f), Tooltip("The distance at witch the damage starts to fall off")]
-        public float minFalloffRange;
+        public float minFalloffRange = 10f;
         [Min(0f), Tooltip("The distance at witch the damage has fallen off to the lowest value in the curve")]
-        public float maxFalloffRange;
+        public float maxFalloffRange = 750f;
         [Tooltip("The curve that determines the falloff of the damage")]
         public AnimationCurve falloffCurve;
     }
@@ -40,17 +40,17 @@ public class AttackSettings
     {
         [Header("Passives")]
         [Min(0f), Tooltip("The rounds per minute")]
-        public float RPM;
+        public float RPM = 140f;
         [Min(0f), Tooltip("The time to live of the bullet")]
         public float ttl = 30f;
         [Header("Range")]
         [Min(0f), Tooltip("The distance at witch the damage starts to fall off")]
-        public float minFalloffRange;
+        public float minFalloffRange = 10f;
         [Min(0f), Tooltip("The distance at witch the damage has fallen off to the lowest value in the curve")]
-        public float maxFalloffRange;
+        public float maxFalloffRange = 75f;
         [Tooltip("The curve that determines the falloff of the damage")]
         public AnimationCurve falloffCurve;
         [Min(0f), Tooltip("The force the weapon shoots with")]
-        public float force;
+        public float force = 5000f;
     }
 }

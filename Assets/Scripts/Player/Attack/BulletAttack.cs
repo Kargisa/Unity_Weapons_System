@@ -40,7 +40,8 @@ public class BulletAttack : IAttackType
         if (distance >= Settings.maxFalloffRange)
             return 0f;
 
-        float y = Settings.falloffCurve.Evaluate((distance - Settings.minFalloffRange) / (Settings.maxFalloffRange - Settings.minFalloffRange));
+        float pointOnCurve = (distance - Settings.minFalloffRange) / (Settings.maxFalloffRange - Settings.minFalloffRange);
+        float y = Settings.falloffCurve.Evaluate(pointOnCurve);
         float damage = y * Settings.damage;
 
         return damage;

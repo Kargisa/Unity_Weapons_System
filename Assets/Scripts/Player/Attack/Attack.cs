@@ -21,7 +21,6 @@ public class Attack : MonoBehaviour
     [HideInInspector] public BulletAttackStats bulletAttackStats;
     [HideInInspector] public MeleeAttackStats meleeAttackStats;
 
-
     #region Range Hitscan Weapons
     //Range Hitscan Weapons ScriptableObjects
     [HideInInspector]
