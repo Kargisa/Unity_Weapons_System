@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletsSettings:
     damage: 5
-    RPM: 300
+    RPM: 120
     ttl: 10
     minFalloffRange: 10
     maxFalloffRange: 50

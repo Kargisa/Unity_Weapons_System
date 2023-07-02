@@ -21,6 +21,8 @@ public class Attack : MonoBehaviour
     [HideInInspector] public BulletAttackStats bulletAttackStats;
     [HideInInspector] public MeleeAttackStats meleeAttackStats;
 
+    [HideInInspector] public bool fullauto = false;
+
     #region Range Hitscan Weapons
     //Range Hitscan Weapons ScriptableObjects
     [HideInInspector]
@@ -60,11 +62,6 @@ public class Attack : MonoBehaviour
         InitAttack();
     }
 
-    private void Update()
-    {
-        AlignAttackAnchor();
-    }
-
     private void InitAttack()
     {
         attackType = this.GenerateAttackType();
@@ -73,11 +70,6 @@ public class Attack : MonoBehaviour
         if (attackAnchor == null)
             throw new ArgumentException($"Missing Child of object {name}: AttackAnchor");
         weaponType.Initialize(transform);
-    }
-
-    private void AlignAttackAnchor()
-    {
-        
     }
 
     /// <summary>

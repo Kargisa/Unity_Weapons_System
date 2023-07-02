@@ -46,13 +46,13 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Shoot"",
-                    ""type"": ""Button"",
+                    ""name"": ""Attack"",
+                    ""type"": ""Value"",
                     ""id"": ""96334f97-d09a-4f26-92f5-860c198446f2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Look"",
@@ -138,7 +138,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shoot"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -162,7 +162,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
         m_Main_Move = m_Main.FindAction("Move", throwIfNotFound: true);
         m_Main_Jump = m_Main.FindAction("Jump", throwIfNotFound: true);
-        m_Main_Shoot = m_Main.FindAction("Shoot", throwIfNotFound: true);
+        m_Main_Attack = m_Main.FindAction("Attack", throwIfNotFound: true);
         m_Main_Look = m_Main.FindAction("Look", throwIfNotFound: true);
     }
 
@@ -227,7 +227,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
     private readonly InputAction m_Main_Move;
     private readonly InputAction m_Main_Jump;
-    private readonly InputAction m_Main_Shoot;
+    private readonly InputAction m_Main_Attack;
     private readonly InputAction m_Main_Look;
     public struct MainActions
     {
@@ -235,7 +235,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public MainActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Main_Move;
         public InputAction @Jump => m_Wrapper.m_Main_Jump;
-        public InputAction @Shoot => m_Wrapper.m_Main_Shoot;
+        public InputAction @Attack => m_Wrapper.m_Main_Attack;
         public InputAction @Look => m_Wrapper.m_Main_Look;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
@@ -252,9 +252,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Shoot.started += instance.OnShoot;
-            @Shoot.performed += instance.OnShoot;
-            @Shoot.canceled += instance.OnShoot;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
@@ -268,9 +268,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Shoot.started -= instance.OnShoot;
-            @Shoot.performed -= instance.OnShoot;
-            @Shoot.canceled -= instance.OnShoot;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
@@ -295,7 +295,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnShoot(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
     }
 }

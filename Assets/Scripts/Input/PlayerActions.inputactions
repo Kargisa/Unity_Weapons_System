@@ -24,13 +24,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
-                    "type": "Button",
+                    "name": "Attack",
+                    "type": "Value",
                     "id": "96334f97-d09a-4f26-92f5-860c198446f2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Look",
@@ -116,7 +116,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

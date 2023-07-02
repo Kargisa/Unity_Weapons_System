@@ -866,11 +866,12 @@ MonoBehaviour:
   foldWeapon: 1
   lockAttackType: 0
   lockWeaponType: 0
-  attackT: 0
+  attackT: 1
   rangeHitscanAttackStats: {fileID: 11400000, guid: 45fe1755dbc210e46a5e4201649f7e4b,
     type: 2}
   bulletAttackStats: {fileID: 11400000, guid: e649b7bab229b9044a53f3ad8fb22d5b, type: 2}
   meleeAttackStats: {fileID: 0}
+  fullauto: 0
   rangeHitscanWeaponType: 0
   railgun: {fileID: 11400000, guid: 7ab260b792c08b44aa4d33a8c12f1ee6, type: 2}
   bulletWeaponType: 0

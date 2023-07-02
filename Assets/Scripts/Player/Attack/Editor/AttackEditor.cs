@@ -23,6 +23,7 @@ public class AttackEditor : Editor
         base.OnInspectorGUI();
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Attack Settings", EditorStyles.boldLabel);
+        DrawToggelField(ref attack.fullauto, "Fullauto");
 
         //Draws and locks the attack type in the inspector
         ToggleStatsSelection();
@@ -79,11 +80,10 @@ public class AttackEditor : Editor
         GUI.enabled = true;
     }
 
-
     /// <summary>
     /// Draws a Unity Object to the inspector
     /// </summary>
-    /// <typeparam name="T">Type of the Object</typeparam>
+    /// <typeparam name="T">Unity Object</typeparam>
     /// <param name="obj">The Object that is going to be draw in the inspector</param>
     /// <param name="name">Label name</param>
     private void DrawObjectField<T>(ref T obj, string name) where T : Object
@@ -168,6 +168,24 @@ public class AttackEditor : Editor
             CreateCachedEditor(obj, null, ref editor);
             editor.OnInspectorGUI();
         }
+    }
+
+    /// <summary>
+    /// Draws a Toggel field
+    /// </summary>
+    /// <param name="field">True or False</param>
+    /// <param name="name">Name of the field</param>
+    private void DrawToggelField(ref bool field, string name)
+    {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField(name);
+
+        Rect offsetRect = EditorGUILayout.GetControlRect();
+        offsetRect.x -= EditorGUIUtility.fieldWidth * 1.11f;
+        offsetRect.width -= EditorGUIUtility.fieldWidth;
+        field = EditorGUI.Toggle(offsetRect, field);
+        field = EditorGUILayout.Toggle(field);
+        EditorGUILayout.EndHorizontal();
     }
 
     private Object GetWeaponObject()
