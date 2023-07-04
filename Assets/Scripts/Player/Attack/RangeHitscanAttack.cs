@@ -18,14 +18,20 @@ public class RangeHitscanAttack : IAttackType
         Vector3 cameraRayTargetPoint = Camera.main.transform.forward * Settings.maxFalloffRange + cameraRayOrigin;
 
         Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
-        bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, Settings.maxFalloffRange);
+        bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit hitcanHit, Settings.maxFalloffRange);
 
         if (!didCameraHit)
             return cameraRayTargetPoint;
 
-        float damage = CalculateDamage(cameraRayOrigin, cameraHit.point);
+        if (hitcanHit.collider.TryGetComponent(out Rigidbody rb))
+        {
+            Vector3 direction = (hitcanHit.point - cameraRayOrigin).normalized;
+            rb.AddForceAtPosition(direction * Settings.pushForce, hitcanHit.point, Settings.pushForceMode);
+        }
+
+        float damage = CalculateDamage(cameraRayOrigin, hitcanHit.point);
         
-        return cameraHit.point;
+        return hitcanHit.point;
     }
 
     public float CalculateDamage(Vector3 origin, Vector3 hitpoint)

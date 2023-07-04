@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abcd2f47967c8da48b6373b4a7cf18aa, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
-  meleeSettings:
+  meleeHitscanSettings:
     damage: 5
-    speed: 0
+    pushForceMode: 1
+    pushForce: 10
+    speed: 60
+    range: 2
+    magnetRadius: 1

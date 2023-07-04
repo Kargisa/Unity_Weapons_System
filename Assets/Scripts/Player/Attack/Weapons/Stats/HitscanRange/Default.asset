@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rangeHitscanSettings:
     damage: 5
+    pushForceMode: 1
+    pushForce: 10
     RPM: 900
     minFalloffRange: 10
     maxFalloffRange: 50

@@ -5,31 +5,32 @@ using UnityEngine;
 
 public class BulletData
 {
-    public BulletData(float ttl, Vector3 force, Vector3 origin, Func<Vector3, Vector3, float> dealDamage)
+    public BulletData(AttackSettings.Bullets settings, Vector3 force, Vector3 origin, Func<Vector3, Vector3, float> calculateDamage)
     {
-        TTL = ttl;
+        Settings = settings;
         Force = force;
         Origin = origin;
-        OnDamageDealt = dealDamage;
+        OnCalculateDamage = calculateDamage;
     }
 
     /// <summary>
-    /// The origin of the bullet.
+    /// The AttackSettings of the weapon
     /// </summary>
-    public Vector3 Origin { get; }
+    public AttackSettings.Bullets Settings { get; set; }
 
     /// <summary>
-    /// The time to live of the bullet.
+    /// The force of the bullet
     /// </summary>
-    public float TTL { get; }
+    public Vector3 Force { get; set; }
 
     /// <summary>
-    /// The force of the bullet.
+    /// The origin of the bullet
     /// </summary>
-    public Vector3 Force { get; }
+    public Vector3 Origin { get; set; }
 
     /// <summary>
-    /// Calculates the damage to a target
+    /// Calculates the damage of the attack
     /// </summary>
-    public Func<Vector3, Vector3, float> OnDamageDealt { get; }
+    public Func<Vector3, Vector3, float> OnCalculateDamage { get; set; }
+
 }

@@ -11,6 +11,9 @@ public class AttackSettings
     [Header("General")]
     [Min(0f)]
     public float damage = 5f;
+    public ForceMode pushForceMode = ForceMode.Impulse;
+    [Min(0f), Tooltip("The force at witch the hit target gets pushed back")]
+    public float pushForce = 0f;
 
     [System.Serializable]
     public class HitScanMelee : AttackSettings
@@ -21,7 +24,7 @@ public class AttackSettings
         [Header("Hit Regestration")]
         [Min(0f), Tooltip("The max distance at wich the melee can hit")]
         public float range = 1f;
-        [Min(0f), Tooltip("The radius from the actuall hitpoint at wich the melee still hit the taret")]
+        [Min(0f), Tooltip("The radius from the actuall hitpoint at wich the melee still hit the target")]
         public float magnetRadius = 0.3f;
     }
 
@@ -36,7 +39,7 @@ public class AttackSettings
         public float minFalloffRange = 10f;
         [Min(0f), Tooltip("The distance at wich the damage has fallen off to the lowest value in the curve")]
         public float maxFalloffRange = 75f;
-        [Tooltip("The curve that determines the falloff of the damage")]
+        [Tooltip("The damage falloff over time, Clamped between 0 and 1")]
         public AnimationCurve falloffCurve;
     }
 
@@ -53,9 +56,14 @@ public class AttackSettings
         public float minFalloffRange = 10f;
         [Min(0f), Tooltip("The distance at wich the damage has fallen off to the lowest value in the curve")]
         public float maxFalloffRange = 75f;
-        [Tooltip("The curve that determines the falloff of the damage")]
+        [Tooltip("The damage falloff over time, Clamped between 0 and 1")]
         public AnimationCurve falloffCurve;
+        [Header("Physics")]
+        public ForceMode forceMode = ForceMode.VelocityChange;
         [Min(0f), Tooltip("The force the weapon shoots with")]
-        public float force = 5000f;
+        public float force = 100;
+        public CollisionDetectionMode collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        [Min(0f)]
+        public float mass = 0f;
     }
 }

@@ -18,7 +18,7 @@ public class BulletAttack : IAttackType
 
         Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
         bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, Settings.maxFalloffRange);
-
+        
         Vector3 force;
         
         if (didCameraHit)
@@ -26,7 +26,7 @@ public class BulletAttack : IAttackType
         else
             force = (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.force;
 
-        return new BulletData(Settings.ttl, force, cameraRayOrigin, CalculateDamage);
+        return new BulletData(Settings ,force, cameraRayOrigin, CalculateDamage);
     }
 
     public float CalculateDamage(Vector3 origin, Vector3 hitpoint)

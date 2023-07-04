@@ -42,4 +42,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    force: 5000
+    forceMode: 2
+    force: 100
+    collisionDetectionMode: 2
+    mass: 0
