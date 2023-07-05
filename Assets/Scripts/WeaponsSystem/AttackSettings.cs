@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -50,7 +45,7 @@ public class AttackSettings
         [Min(0f), Tooltip("The rounds per minute")]
         public float RPM = 140f;
         [Min(0f), Tooltip("The time to live of the bullet")]
-        public float ttl = 30f;
+        public float ttl = 10f;
         [Header("Range")]
         [Min(0f), Tooltip("The distance at wich the damage starts to fall off")]
         public float minFalloffRange = 10f;
@@ -59,11 +54,11 @@ public class AttackSettings
         [Tooltip("The damage falloff over time, Clamped between 0 and 1")]
         public AnimationCurve falloffCurve;
         [Header("Physics")]
-        public ForceMode forceMode = ForceMode.VelocityChange;
+        public ForceMode bulletForceMode = ForceMode.VelocityChange;
         [Min(0f), Tooltip("The force the weapon shoots with")]
-        public float force = 100;
+        public float bulletrForce = 100;
         public CollisionDetectionMode collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         [Min(0f)]
-        public float mass = 0f;
+        public float bulletMass = 0f;
     }
 }

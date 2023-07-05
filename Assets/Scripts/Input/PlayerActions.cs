@@ -62,6 +62,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Secondary"",
+                    ""type"": ""Value"",
+                    ""id"": ""e404dc35-184f-47bd-9427-00126c1893b9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e56b2028-676f-4f77-8579-5453ecf2ac66"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Main_Jump = m_Main.FindAction("Jump", throwIfNotFound: true);
         m_Main_Attack = m_Main.FindAction("Attack", throwIfNotFound: true);
         m_Main_Look = m_Main.FindAction("Look", throwIfNotFound: true);
+        m_Main_Secondary = m_Main.FindAction("Secondary", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +250,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Jump;
     private readonly InputAction m_Main_Attack;
     private readonly InputAction m_Main_Look;
+    private readonly InputAction m_Main_Secondary;
     public struct MainActions
     {
         private @PlayerActions m_Wrapper;
@@ -237,6 +259,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Main_Jump;
         public InputAction @Attack => m_Wrapper.m_Main_Attack;
         public InputAction @Look => m_Wrapper.m_Main_Look;
+        public InputAction @Secondary => m_Wrapper.m_Main_Secondary;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +281,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Secondary.started += instance.OnSecondary;
+            @Secondary.performed += instance.OnSecondary;
+            @Secondary.canceled += instance.OnSecondary;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -274,6 +300,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Secondary.started -= instance.OnSecondary;
+            @Secondary.performed -= instance.OnSecondary;
+            @Secondary.canceled -= instance.OnSecondary;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -297,5 +326,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnSecondary(InputAction.CallbackContext context);
     }
 }

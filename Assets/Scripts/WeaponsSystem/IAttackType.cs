@@ -5,11 +5,16 @@ using UnityEngine;
 public interface IAttackType
 {
     /// <summary>
-    /// Calculates the attack using the point from where it starts
+    /// Makes the attack using the point from where it starts
     /// </summary>
     /// <param name="attackTransform">the point where the attack emits from</param>
     /// <returns>Data produced by the attack</returns>
     public object MakeAttack(Transform attackTransform);
+
+    /// <summary>
+    /// Makes the secondary move of the attack
+    /// </summary>
+    public void MakeSecondary();
 
     /// <summary>
     /// Calculates the damage to a target

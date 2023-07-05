@@ -22,9 +22,9 @@ public class BulletAttack : IAttackType
         Vector3 force;
         
         if (didCameraHit)
-            force = (cameraHit.point - attackAnchor.position).normalized * Settings.force;
+            force = (cameraHit.point - attackAnchor.position).normalized * Settings.bulletrForce;
         else
-            force = (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.force;
+            force = (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.bulletrForce;
 
         return new BulletData(Settings ,force, cameraRayOrigin, CalculateDamage);
     }
@@ -36,14 +36,19 @@ public class BulletAttack : IAttackType
         //Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
 
         if (distance <= Settings.minFalloffRange)
-            return Settings.damage;
+            return Settings.damage * Settings.falloffCurve.Evaluate(0);
         if (distance >= Settings.maxFalloffRange)
-            return 0f;
+            return Settings.damage * Settings.falloffCurve.Evaluate(1);
 
         float pointOnCurve = (distance - Settings.minFalloffRange) / (Settings.maxFalloffRange - Settings.minFalloffRange);
         float y = Settings.falloffCurve.Evaluate(pointOnCurve);
         float damage = y * Settings.damage;
 
         return damage;
+    }
+
+    public void MakeSecondary()
+    {
+        
     }
 }

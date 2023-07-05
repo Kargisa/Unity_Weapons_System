@@ -50,7 +50,9 @@ public class Attack : MonoBehaviour
     public Knife knife;
     #endregion
 
-    
+    public bool HoldsMainAttack { get; set; }
+    public bool HoldsSecondary { get; set; }
+
     float timeOfLastAttack = 0;
 
     object data;
@@ -101,6 +103,11 @@ public class Attack : MonoBehaviour
         data = attackType.MakeAttack(attackAnchor);
         StartCoroutine(weaponType.Animate(attackAnchor, data));
         timeOfLastAttack = Time.time;
+    }
+
+    public void MakeSecondary()
+    {
+        attackType.MakeSecondary();
     }
 
     private void OnDisable()

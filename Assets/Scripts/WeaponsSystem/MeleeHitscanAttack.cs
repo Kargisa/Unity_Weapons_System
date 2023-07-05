@@ -44,4 +44,9 @@ public class MeleeHitscanAttack : IAttackType
     {
         return Settings.damage;
     }
+
+    public void MakeSecondary()
+    {
+        throw new System.NotImplementedException();
+    }
 }

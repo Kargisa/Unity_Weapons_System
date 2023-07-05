@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
         settings = bulletData.Settings;
 
         _rb = GetComponent<Rigidbody>();
-        _rb.mass = settings.mass;
+        _rb.mass = settings.bulletMass;
         _rb.useGravity = false;
         _rb.collisionDetectionMode = settings.collisionDetectionMode;
         _rb.AddForce(bulletData.Force, ForceMode.VelocityChange);
@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
         if (bulletData == null)
             return;
 
-        if (collision.collider.TryGetComponent(out Rigidbody rb))
+        if (settings.maxFalloffRange < Vector3.Distance(collision.GetContact(0).point, bulletData.Origin) && collision.collider.TryGetComponent(out Rigidbody rb))
         {
             Vector3 hitpoint = collision.GetContact(0).point;
             Vector3 direction = (hitpoint - bulletData.Origin).normalized;

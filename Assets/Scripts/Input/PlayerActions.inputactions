@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Secondary",
+                    "type": "Value",
+                    "id": "e404dc35-184f-47bd-9427-00126c1893b9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -128,6 +137,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e56b2028-676f-4f77-8579-5453ecf2ac66",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
