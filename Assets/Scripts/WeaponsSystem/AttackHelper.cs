@@ -14,9 +14,9 @@ public static class AttackHelper
     {
         return attack.attackT switch
         {
-            AttackType.RangeHitscan => new RangeHitscanAttack(attack.rangeHitscanAttackStats.rangeHitscanSettings, attack.rangeHitscanAttackStats.scopeHitscanSettings),
-            AttackType.MeleeHitscan => new MeleeHitscanAttack(attack.meleeAttackStats.meleeHitscanSettings),
-            AttackType.Bullet => new BulletAttack(attack.bulletAttackStats.bulletsSettings),
+            AttackType.RangeHitscan => new RangeHitscanAttack(attack.rangeHitscanAttackStats.rangeHitscanSettings, attack.rangeHitscanAttackStats.scopeHitscanSettings, attack),
+            AttackType.MeleeHitscan => new MeleeHitscanAttack(attack.meleeAttackStats.meleeHitscanSettings, attack),
+            AttackType.Bullet => new BulletAttack(attack.bulletAttackStats.bulletsSettings,attack.bulletAttackStats.scopeBulletSettings ,attack),
             _ => null,
         };
     }

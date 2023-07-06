@@ -7,16 +7,20 @@ using UnityEngine;
 public class MeleeHitscanAttack : IAttackType
 {
     public AttackSettings.HitScanMelee Settings { get; }
+    public Attack AttackInfo { get; set; }
+    public Camera Camera { get; }
 
-    public MeleeHitscanAttack(AttackSettings.HitScanMelee settings)
+    public MeleeHitscanAttack(AttackSettings.HitScanMelee settings, Attack attack)
     {
         Settings = settings;
+        AttackInfo = attack;
+        Camera = attack.firstpersonCamera;
     }
 
     public object MakeAttack(Transform attackAnchor)
     {
-        Vector3 cameraRayOrigin = Camera.main.transform.position;
-        Vector3 cameraRayTargetPoint = Camera.main.transform.forward * Settings.range + cameraRayOrigin;
+        Vector3 cameraRayOrigin = Camera.transform.position;
+        Vector3 cameraRayTargetPoint = Camera.transform.forward * Settings.range + cameraRayOrigin;
 
         Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
 
@@ -46,6 +50,11 @@ public class MeleeHitscanAttack : IAttackType
     }
 
     public void MakeSecondary()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ReleaseSecondary()
     {
         throw new System.NotImplementedException();
     }

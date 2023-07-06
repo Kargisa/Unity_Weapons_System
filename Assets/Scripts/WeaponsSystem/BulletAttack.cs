@@ -4,29 +4,35 @@ using UnityEngine;
 
 public class BulletAttack : IAttackType
 {
-    public AttackSettings.Bullets Settings { get; }
+    public AttackSettings.Bullets AttackSettings { get; }
+    public SecondarySettings.Scope ScopeSettings{ get; set; }
+    public Attack AttackInfo { get; set; }
+    public Camera Camera { get; }
 
-    public BulletAttack(AttackSettings.Bullets bulletsSettings)
+    public BulletAttack(AttackSettings.Bullets attackSettings, SecondarySettings.Scope scopeSettings, Attack attack)
     {
-        Settings = bulletsSettings;
+        AttackSettings = attackSettings;
+        ScopeSettings = scopeSettings;
+        AttackInfo = attack;
+        Camera = attack.firstpersonCamera;
     }
 
     public object MakeAttack(Transform attackAnchor)
     {
-        Vector3 cameraRayOrigin = Camera.main.transform.position;
-        Vector3 cameraRayTargetPoint = Camera.main.transform.forward * Settings.maxFalloffRange + cameraRayOrigin;
+        Vector3 cameraRayOrigin = Camera.transform.position;
+        Vector3 cameraRayTargetPoint = Camera.transform.forward * AttackSettings.maxFalloffRange + cameraRayOrigin;
 
         Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
-        bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, Settings.maxFalloffRange);
+        bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit cameraHit, AttackSettings.maxFalloffRange);
         
         Vector3 force;
         
         if (didCameraHit)
-            force = (cameraHit.point - attackAnchor.position).normalized * Settings.bulletrForce;
+            force = (cameraHit.point - attackAnchor.position).normalized * AttackSettings.bulletrForce;
         else
-            force = (cameraRayTargetPoint - attackAnchor.position).normalized * Settings.bulletrForce;
+            force = (cameraRayTargetPoint - attackAnchor.position).normalized * AttackSettings.bulletrForce;
 
-        return new BulletData(Settings ,force, cameraRayOrigin, CalculateDamage);
+        return new BulletData(AttackSettings ,force, cameraRayOrigin, CalculateDamage);
     }
 
     public float CalculateDamage(Vector3 origin, Vector3 hitpoint)
@@ -35,20 +41,29 @@ public class BulletAttack : IAttackType
 
         //Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
 
-        if (distance <= Settings.minFalloffRange)
-            return Settings.damage * Settings.falloffCurve.Evaluate(0);
-        if (distance >= Settings.maxFalloffRange)
-            return Settings.damage * Settings.falloffCurve.Evaluate(1);
+        if (distance <= AttackSettings.minFalloffRange)
+            return AttackSettings.damage * AttackSettings.falloffCurve.Evaluate(0);
+        if (distance >= AttackSettings.maxFalloffRange)
+            return AttackSettings.damage * AttackSettings.falloffCurve.Evaluate(1);
 
-        float pointOnCurve = (distance - Settings.minFalloffRange) / (Settings.maxFalloffRange - Settings.minFalloffRange);
-        float y = Settings.falloffCurve.Evaluate(pointOnCurve);
-        float damage = y * Settings.damage;
+        float zoomFactor = ScopeSettings.rangeIncrease * ScopeSettings.zoom * (AttackInfo.holdsSecondary ? 1 : 0);
+        float min = AttackSettings.minFalloffRange + zoomFactor;
+        float max = AttackSettings.maxFalloffRange + zoomFactor;
+
+        float pointOnCurve = (distance - min) / (max - min);
+        float y = AttackSettings.falloffCurve.Evaluate(pointOnCurve);
+        float damage = y * AttackSettings.damage;
 
         return damage;
     }
 
     public void MakeSecondary()
     {
-        
+        Camera.fieldOfView *= 1 - (ScopeSettings.zoom * 0.01f);
+    }
+
+    public void ReleaseSecondary()
+    {
+        Camera.fieldOfView /= 1 - (ScopeSettings.zoom * 0.01f);
     }
 }

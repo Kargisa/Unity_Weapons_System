@@ -24,6 +24,7 @@ public class AttackEditor : Editor
 
         EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
 
+        DrawObjectField(ref attack.firstpersonCamera, "Firstperson Camera");
         attack.fullauto = EditorGUILayout.Toggle("Fullauto", attack.fullauto);
 
         EditorGUILayout.LabelField("Attack Settings", EditorStyles.boldLabel);

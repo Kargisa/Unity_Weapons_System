@@ -5,8 +5,8 @@ public class WeaponController : MonoBehaviour
     [Header("Weapons")]
     public Attack weapon_main;
 
-    public bool HoldsMainAttack { get; set; } = false;
-    public bool HoldsSecondary { get; set; } = false;
+    [HideInInspector] public bool holdsMainAttack = false;
+    [HideInInspector] public bool holdsSecondary = false;
     private float mainAttackPressed;
     private float secondaryPressed;
 
@@ -24,34 +24,42 @@ public class WeaponController : MonoBehaviour
         if (mainAttackPressed > 0)
             Attack_Main();
         else
-            HoldsMainAttack = false;
+            holdsMainAttack = false;
 
         if (secondaryPressed > 0)
             Secondary();
         else
-            HoldsSecondary = false;
+            ReleaseSecondary();
 
-        weapon_main.HoldsMainAttack = HoldsMainAttack;
-        weapon_main.HoldsSecondary = HoldsSecondary;
+        weapon_main.holdsMainAttack = holdsMainAttack;
+        weapon_main.holdsSecondary = holdsSecondary;
     }
 
     private void Attack_Main()
     {
         if (weapon_main == null)
             return;
-        if (HoldsMainAttack && !weapon_main.fullauto)
+        if (holdsMainAttack && !weapon_main.fullauto)
             return;
-        HoldsMainAttack = true;
+        holdsMainAttack = true;
 
         weapon_main.MakeAttack();
     }
 
     private void Secondary()
     {
-        if (weapon_main == null)
+        if (weapon_main == null || holdsSecondary)
             return;
-        HoldsSecondary = true;
+        holdsSecondary = true;
 
         weapon_main.MakeSecondary();
+    }
+
+    private void ReleaseSecondary()
+    {
+        if (weapon_main == null || !holdsSecondary)
+            return;
+        holdsSecondary = false;
+        weapon_main.ReleaseSecondary();
     }
 }

@@ -22,6 +22,7 @@ public class Attack : MonoBehaviour
     [HideInInspector] public MeleeHitscanAttackStats meleeAttackStats;
 
     [HideInInspector] public bool fullauto = false;
+    [HideInInspector] public Camera firstpersonCamera;
 
     #region Range Hitscan Weapons
     //Range Hitscan Weapons ScriptableObjects
@@ -50,8 +51,8 @@ public class Attack : MonoBehaviour
     public Knife knife;
     #endregion
 
-    public bool HoldsMainAttack { get; set; }
-    public bool HoldsSecondary { get; set; }
+    [HideInInspector] public bool holdsMainAttack;
+    [HideInInspector] public bool holdsSecondary;
 
     float timeOfLastAttack = 0;
 
@@ -69,6 +70,11 @@ public class Attack : MonoBehaviour
 
     private void InitAttack()
     {
+        if (firstpersonCamera == null)
+        {
+            Debug.LogWarning("No camera specified, using 'Main Camera'");
+            firstpersonCamera = Camera.main;
+        }
         attackType = this.GenerateAttackType();
         weaponType = this.GetWeapon();
         attackAnchor = transform.Find("AttackAnchor");
@@ -108,6 +114,11 @@ public class Attack : MonoBehaviour
     public void MakeSecondary()
     {
         attackType.MakeSecondary();
+    }
+
+    public void ReleaseSecondary()
+    {
+        attackType.ReleaseSecondary();
     }
 
     private void OnDisable()

@@ -5,19 +5,25 @@ using UnityEngine;
 public class RangeHitscanAttack : IAttackType
 {
     public AttackSettings.RangeHitscan AttackSettings { get; }
-    public SecondarySettings.Scope ScopeSettings { get; set; }
+    public SecondarySettings.Scope ScopeSettings { get; }
+    public Attack AttackInfo { get; }
+    public Camera Camera { get; }
+
     public IWeaponType Weapon { get; set; }
 
-    public RangeHitscanAttack(AttackSettings.RangeHitscan attackSettings, SecondarySettings.Scope scopeSettings)
+    public RangeHitscanAttack(AttackSettings.RangeHitscan attackSettings, SecondarySettings.Scope scopeSettings, Attack attack)
     {
         AttackSettings = attackSettings;
         ScopeSettings = scopeSettings;
+        AttackInfo = attack;
+        Camera = attack.firstpersonCamera;
+        
     }
 
     public object MakeAttack(Transform attackAnchor)
     {
-        Vector3 cameraRayOrigin = Camera.main.transform.position;
-        Vector3 cameraRayTargetPoint = Camera.main.transform.forward * AttackSettings.maxFalloffRange + cameraRayOrigin;
+        Vector3 cameraRayOrigin = Camera.transform.position;
+        Vector3 cameraRayTargetPoint = Camera.transform.forward * AttackSettings.maxFalloffRange + cameraRayOrigin;
 
         Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
         bool didCameraHit = Physics.Raycast(cameraRay, out RaycastHit hitcanHit, AttackSettings.maxFalloffRange);
@@ -47,9 +53,9 @@ public class RangeHitscanAttack : IAttackType
 
         //Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
 
-        // implement scope release
-        float min = AttackSettings.minFalloffRange + (ScopeSettings.rangeIncrease * ScopeSettings.zoom);
-        float max = AttackSettings.maxFalloffRange + (ScopeSettings.rangeIncrease * ScopeSettings.zoom);
+        float zoomFactor = ScopeSettings.rangeIncrease * ScopeSettings.zoom * (AttackInfo.holdsSecondary ? 1 : 0);
+        float min = AttackSettings.minFalloffRange + zoomFactor;
+        float max = AttackSettings.maxFalloffRange + zoomFactor;
 
         float pointOnCurve = (distance - min) / (max - min);
         float y = AttackSettings.falloffCurve.Evaluate(pointOnCurve);
@@ -60,6 +66,11 @@ public class RangeHitscanAttack : IAttackType
 
     public void MakeSecondary()
     {
-        throw new System.NotImplementedException();
+        Camera.fieldOfView *= 1 - (ScopeSettings.zoom * 0.01f);
+    }
+
+    public void ReleaseSecondary()
+    {
+        Camera.fieldOfView /= 1 - (ScopeSettings.zoom * 0.01f);
     }
 }

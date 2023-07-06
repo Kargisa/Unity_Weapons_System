@@ -6,4 +6,5 @@ using UnityEngine;
 public class BulletAttackStats : ScriptableObject
 {
     public AttackSettings.Bullets bulletsSettings;
+    public SecondarySettings.Scope scopeBulletSettings;
 }

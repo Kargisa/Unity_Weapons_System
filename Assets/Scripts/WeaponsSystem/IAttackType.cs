@@ -17,6 +17,11 @@ public interface IAttackType
     public void MakeSecondary();
 
     /// <summary>
+    /// Releases the secondary move of the attack
+    /// </summary>
+    public void ReleaseSecondary();
+
+    /// <summary>
     /// Calculates the damage to a target
     /// </summary>
     /// <param name="origin">The origin of the attack</param>
