@@ -11,13 +11,15 @@ public class RangeHitscanAttack : IAttackType
 
     public IWeaponType Weapon { get; set; }
 
+    public SecondarySettings SecondarySettings { get; }
+
     public RangeHitscanAttack(AttackSettings.RangeHitscan attackSettings, SecondarySettings.Scope scopeSettings, Attack attack)
     {
         AttackSettings = attackSettings;
         ScopeSettings = scopeSettings;
+        SecondarySettings = scopeSettings;
         AttackInfo = attack;
         Camera = attack.firstpersonCamera;
-        
     }
 
     public object MakeAttack(Transform attackAnchor)
@@ -62,15 +64,5 @@ public class RangeHitscanAttack : IAttackType
         float damage = y * AttackSettings.damage;
 
         return damage;
-    }
-
-    public void MakeSecondary()
-    {
-        Camera.fieldOfView *= 1 - (ScopeSettings.zoom * 0.01f);
-    }
-
-    public void ReleaseSecondary()
-    {
-        Camera.fieldOfView /= 1 - (ScopeSettings.zoom * 0.01f);
     }
 }

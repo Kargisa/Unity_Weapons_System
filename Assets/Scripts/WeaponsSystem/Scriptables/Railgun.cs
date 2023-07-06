@@ -1,23 +1,32 @@
 using System.Collections;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 [CreateAssetMenu(menuName="WeaponsSystem/Type/Railgun")]
 public class Railgun : ScriptableObject, IWeaponType
 {
+    [Header("Main")]
     public Gradient color;
     [Min(0f)]
     public float startWidth;
     [Min(0f)]
     public float endWidth;
-
     public Material lineMaterial;
+    [Header("Secondary")]
+
 
     [HideInInspector] public GameObject railgunLine;
 
     private LineRenderer _line;
-    
-    public void Initialize(Transform parent)
+    private float fieldOfView;
+    public Camera Camera { get; set; }
+    private bool scopingIn = false;
+    private bool scopingOut = false;
+
+
+    public void Initialize(Transform parent, Camera camera)
     {
+        Camera = camera;
         if (railgunLine == null)
             railgunLine = new GameObject("Railgun_Line");
         Instantiate(railgunLine);
@@ -58,5 +67,47 @@ public class Railgun : ScriptableObject, IWeaponType
     public void Destroy()
     {
         Destroy(railgunLine);
+    }
+
+    public IEnumerator AnimateSecondary(object data)
+    {
+        SecondarySettings.Scope scopeSettings = data as SecondarySettings.Scope;
+        if (scopeSettings == null)
+            throw new System.InvalidCastException($"{nameof(data)} can not be cast into {nameof(SecondarySettings.Scope)}");
+        scopingIn = true;
+        fieldOfView = Camera.fieldOfView;
+        float finalZoom = Camera.fieldOfView - scopeSettings.zoom;
+        float time = 0f;
+        while (time < scopeSettings.scopeinTime)
+        {
+            if (Camera.fieldOfView <= finalZoom)
+                break;
+            Camera.fieldOfView -= Time.deltaTime * scopeSettings.zoom / scopeSettings.scopeinTime;
+            yield return null;
+            time += Time.deltaTime;
+        }
+        if (!scopingOut)
+            Camera.fieldOfView = finalZoom;
+        scopingIn = false;
+    }
+
+    public IEnumerator AnimateReleaseSecondary(object data)
+    {
+        SecondarySettings.Scope scopeSettings = data as SecondarySettings.Scope;
+        if (scopeSettings == null)
+            throw new System.InvalidCastException($"{nameof(data)} can not be cast into {nameof(SecondarySettings.Scope)}");
+        scopingOut = true;
+        float time = 0f;
+        while (time < scopeSettings.scopeinTime)
+        {
+            if (Camera.fieldOfView >= fieldOfView)
+                break;
+            Camera.fieldOfView += Time.deltaTime * scopeSettings.zoom / scopeSettings.scopeinTime;
+            yield return null;
+            time += Time.deltaTime;
+        }
+        if (!scopingIn)
+            Camera.fieldOfView = fieldOfView;
+        scopingOut = false;
     }
 }

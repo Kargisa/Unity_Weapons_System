@@ -80,7 +80,7 @@ public class Attack : MonoBehaviour
         attackAnchor = transform.Find("AttackAnchor");
         if (attackAnchor == null)
             throw new ArgumentException($"Missing Child of object {name}: AttackAnchor");
-        weaponType.Initialize(transform);
+        weaponType.Initialize(transform, firstpersonCamera);
     }
 
     /// <summary>
@@ -113,12 +113,12 @@ public class Attack : MonoBehaviour
 
     public void MakeSecondary()
     {
-        attackType.MakeSecondary();
+        StartCoroutine(weaponType.AnimateSecondary(attackType.SecondarySettings));
     }
 
     public void ReleaseSecondary()
     {
-        attackType.ReleaseSecondary();
+        StartCoroutine(weaponType.AnimateReleaseSecondary(attackType.SecondarySettings));
     }
 
     private void OnDisable()

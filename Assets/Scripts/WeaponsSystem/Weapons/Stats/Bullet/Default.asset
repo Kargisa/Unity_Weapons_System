@@ -26,17 +26,26 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: -1
-        outSlope: -1
+        inSlope: -0.5333333
+        outSlope: -0.5333333
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.75
+        value: 0.6
+        inSlope: -0.5941928
+        outSlope: -0.5941928
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.5620439
+      - serializedVersion: 3
         time: 1
-        value: 0
-        inSlope: -1
-        outSlope: -1
+        value: 0.1
+        inSlope: -2
+        outSlope: -2
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -48,3 +57,7 @@ MonoBehaviour:
     bulletrForce: 100
     collisionDetectionMode: 2
     bulletMass: 0
+  scopeBulletSettings:
+    scopeinTime: 0.2
+    zoom: 13
+    rangeIncrease: 0.5

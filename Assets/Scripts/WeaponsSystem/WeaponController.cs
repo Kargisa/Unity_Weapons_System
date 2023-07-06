@@ -51,7 +51,6 @@ public class WeaponController : MonoBehaviour
         if (weapon_main == null || holdsSecondary)
             return;
         holdsSecondary = true;
-
         weapon_main.MakeSecondary();
     }
 

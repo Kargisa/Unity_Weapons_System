@@ -9,10 +9,13 @@ public class BulletAttack : IAttackType
     public Attack AttackInfo { get; set; }
     public Camera Camera { get; }
 
+    public SecondarySettings SecondarySettings { get; }
+
     public BulletAttack(AttackSettings.Bullets attackSettings, SecondarySettings.Scope scopeSettings, Attack attack)
     {
         AttackSettings = attackSettings;
         ScopeSettings = scopeSettings;
+        SecondarySettings = scopeSettings;
         AttackInfo = attack;
         Camera = attack.firstpersonCamera;
     }
@@ -55,15 +58,5 @@ public class BulletAttack : IAttackType
         float damage = y * AttackSettings.damage;
 
         return damage;
-    }
-
-    public void MakeSecondary()
-    {
-        Camera.fieldOfView *= 1 - (ScopeSettings.zoom * 0.01f);
-    }
-
-    public void ReleaseSecondary()
-    {
-        Camera.fieldOfView /= 1 - (ScopeSettings.zoom * 0.01f);
     }
 }

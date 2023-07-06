@@ -9,6 +9,7 @@ public class MeleeHitscanAttack : IAttackType
     public AttackSettings.HitScanMelee Settings { get; }
     public Attack AttackInfo { get; set; }
     public Camera Camera { get; }
+    public SecondarySettings SecondarySettings { get; }
 
     public MeleeHitscanAttack(AttackSettings.HitScanMelee settings, Attack attack)
     {
@@ -47,15 +48,5 @@ public class MeleeHitscanAttack : IAttackType
     public float CalculateDamage(Vector3 origin, Vector3 hitpoint)
     {
         return Settings.damage;
-    }
-
-    public void MakeSecondary()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void ReleaseSecondary()
-    {
-        throw new System.NotImplementedException();
     }
 }
