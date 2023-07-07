@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Attack))]
-public class AttackEditor : Editor
+[CustomEditor(typeof(Weapon))]
+public class WeaponEditor : Editor
 {
-    Attack attack;
+    Weapon attack;
     Editor settings;
     Editor editor;
     Object weaponObj;
@@ -15,7 +15,7 @@ public class AttackEditor : Editor
 
     private void OnEnable()
     {
-        attack = target as Attack;
+        attack = target as Weapon;
     }
 
     public override void OnInspectorGUI()
@@ -23,8 +23,6 @@ public class AttackEditor : Editor
         base.OnInspectorGUI();
 
         EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
-
-        DrawObjectField(ref attack.firstpersonCamera, "Firstperson Camera");
         attack.fullauto = EditorGUILayout.Toggle("Fullauto", attack.fullauto);
 
         EditorGUILayout.LabelField("Attack Settings", EditorStyles.boldLabel);
@@ -151,7 +149,7 @@ public class AttackEditor : Editor
                 DrawObjectField(ref attack.rangeHitscanAttackStats, "Range Hitscan Attack Stats");
                 break;
             case AttackType.MeleeHitscan:
-                DrawObjectField(ref attack.meleeAttackStats, "Melee Attack Stats");
+                DrawObjectField(ref attack.meleeHitscanAttackStats, "Melee Attack Stats");
                 break;
             case AttackType.Bullet:
                 DrawObjectField(ref attack.bulletAttackStats, "Bullet Weapon Stats");
@@ -213,7 +211,7 @@ public class AttackEditor : Editor
         return attack.attackT switch
         {
             AttackType.RangeHitscan => attack.rangeHitscanAttackStats,
-            AttackType.MeleeHitscan => attack.meleeAttackStats,
+            AttackType.MeleeHitscan => attack.meleeHitscanAttackStats,
             AttackType.Bullet => attack.bulletAttackStats,
             _ => throw new System.NotImplementedException($"{attack.attackT} attack type not implemented"),
         };

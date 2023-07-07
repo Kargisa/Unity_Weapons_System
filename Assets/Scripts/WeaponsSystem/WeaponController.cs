@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    public Player player;
     [Header("Weapons")]
-    public Attack weapon_main;
+    public Weapon weapon_main;
 
     [HideInInspector] public bool holdsMainAttack = false;
     [HideInInspector] public bool holdsSecondary = false;
@@ -13,7 +15,24 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
+        if (player == null)
+        {
+            Debug.LogWarning($"{nameof(player)} was null, getting component from gameObject");
+            if (!TryGetComponent(out player))
+                throw new MissingComponentException($"{gameObject.name} has no component type of {nameof(Player)}");
+        }
+        if (weapon_main != null)
+            PickUpMainWeapon(weapon_main);
+
         InputManager.Instance.InputActions.Main.Enable();
+    }
+
+    public void PickUpMainWeapon(Weapon weapon)
+    {
+        if (player is not IPlayer)
+            throw new System.NotImplementedException($"{nameof(player)} does not implement the interface {nameof(IPlayer)}");
+        weapon_main = weapon;
+        weapon_main.player = player;
     }
 
     private void Update()

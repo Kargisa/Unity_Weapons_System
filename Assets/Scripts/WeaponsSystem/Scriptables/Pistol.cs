@@ -12,7 +12,7 @@ public class Pistol : ScriptableObject, IWeaponType
     private bool scopingIn = false;
     private bool scopingOut = false;
 
-    public IEnumerator Animate(Transform attackPoint, object data)
+    public IEnumerator AnimateMain(Transform attackPoint, object data)
     {
         BulletData bulletData = (BulletData)data;
 
@@ -26,8 +26,7 @@ public class Pistol : ScriptableObject, IWeaponType
 
     public IEnumerator AnimateSecondary(object data)
     {
-        SecondarySettings.Scope scopeSettings = data as SecondarySettings.Scope;
-        if (scopeSettings == null)
+        if (data is not SecondarySettings.Scope scopeSettings)
             throw new System.InvalidCastException($"{nameof(data)} can not be cast into {nameof(SecondarySettings.Scope)}");
         scopingIn = true;
         fieldOfView = Camera.fieldOfView;
@@ -48,8 +47,7 @@ public class Pistol : ScriptableObject, IWeaponType
 
     public IEnumerator AnimateReleaseSecondary(object data)
     {
-        SecondarySettings.Scope scopeSettings = data as SecondarySettings.Scope;
-        if (scopeSettings == null)
+        if (data is not SecondarySettings.Scope scopeSettings)
             throw new System.InvalidCastException($"{nameof(data)} can not be cast into {nameof(SecondarySettings.Scope)}");
         scopingOut = true;
         float time = 0f;

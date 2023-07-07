@@ -3,20 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPlayer
 {
-    public float speed;
-    public float mouseSensitivitie;
-    public float jumpForce;
+    [Header("Main")]
+    [SerializeField]
+    private float hp = 100f;
+
+    public float HP
+    {
+        get { return hp; }
+        set
+        {
+            if (value < hp)
+            {
+                float dmg = hp - value;
+                value = hp - dmg * (1 - normalResistance * 0.01f);
+                hp = value;
+            }
+            else
+                hp = value;
+        }
+    }
+
+    public float speed = 5f;
+    public float mouseSensitivitie = 0.1f;
+    public float jumpForce = 6f;
+
+    [Header("Stats")]
+    public float normalResistance = 0f;
 
     [Header("Jump")]
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _maxGroundDistance;
     [SerializeField] private LayerMask _groundMask;
-    [HideInInspector] public bool grounded;
+    [HideInInspector] public bool grounded = false;
 
     private Rigidbody _rb;
-    [HideInInspector] public Camera cam;
+    [HideInInspector] public Camera firstPersonCamera;
     private float rotationX = 0;
 
     private Vector3 _moveDirection;
@@ -30,7 +53,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        cam = Camera.main;
+        firstPersonCamera = Camera.main;
     }
 
     private void Start()
@@ -42,6 +65,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+            HP -= 5;
+
         ReadInputs();
         Look();
     }
@@ -52,14 +78,19 @@ public class Player : MonoBehaviour
         Move();
     }
 
+    public void SetResistanceValues(float normalResistance)
+    {
+        this.normalResistance += normalResistance;
+    }
+
     private void Look()
     {
         transform.Rotate(transform.up, _mouseDelta.x * mouseSensitivitie);
-        
+
         rotationX -= _mouseDelta.y * mouseSensitivitie;
         rotationX = Mathf.Clamp(rotationX, -90, 85);
 
-        cam.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        firstPersonCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
     }
 
     private void ReadInputs()

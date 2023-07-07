@@ -6,30 +6,32 @@ using UnityEngine;
 
 public class MeleeHitscanAttack : IAttackType
 {
-    public AttackSettings.HitScanMelee Settings { get; }
-    public Attack AttackInfo { get; set; }
+    public AttackSettings.HitScanMelee AttackSettings { get; }
+    public SecondarySettings.Block BlockSettings { get; }
+    public Weapon WeaponInfo { get; set; }
     public Camera Camera { get; }
     public SecondarySettings SecondarySettings { get; }
 
-    public MeleeHitscanAttack(AttackSettings.HitScanMelee settings, Attack attack)
+    public MeleeHitscanAttack(AttackSettings.HitScanMelee attackSettings, SecondarySettings.Block blockSettings, Weapon weapon)
     {
-        Settings = settings;
-        AttackInfo = attack;
-        Camera = attack.firstpersonCamera;
+        AttackSettings = attackSettings;
+        BlockSettings = blockSettings;
+        WeaponInfo = weapon;
+        Camera = weapon.firstpersonCamera;
     }
 
     public object MakeAttack(Transform attackAnchor)
     {
         Vector3 cameraRayOrigin = Camera.transform.position;
-        Vector3 cameraRayTargetPoint = Camera.transform.forward * Settings.range + cameraRayOrigin;
+        Vector3 cameraRayTargetPoint = Camera.transform.forward * AttackSettings.range + cameraRayOrigin;
 
         Ray cameraRay = new Ray(cameraRayOrigin, (cameraRayTargetPoint - cameraRayOrigin).normalized);
 
         bool didMeleeHit;
         
-        didMeleeHit = Physics.Raycast(cameraRay, out RaycastHit meleeHit, Settings.range);
+        didMeleeHit = Physics.Raycast(cameraRay, out RaycastHit meleeHit, AttackSettings.range);
         if (!didMeleeHit)
-            didMeleeHit = Physics.SphereCast(cameraRay, Settings.magnetRadius, out meleeHit, Settings.range - Settings.magnetRadius);
+            didMeleeHit = Physics.SphereCast(cameraRay, AttackSettings.magnetRadius, out meleeHit, AttackSettings.range - AttackSettings.magnetRadius);
 
         if (!didMeleeHit)
             return cameraRayOrigin;
@@ -37,7 +39,7 @@ public class MeleeHitscanAttack : IAttackType
         if (meleeHit.collider.TryGetComponent(out Rigidbody rb))
         {
             Vector3 direction = (meleeHit.point - cameraRayOrigin).normalized;
-            rb.AddForceAtPosition(direction * Settings.pushForce, meleeHit.point, Settings.pushForceMode);
+            rb.AddForceAtPosition(direction * AttackSettings.pushForce, meleeHit.point, AttackSettings.pushForceMode);
         }
 
         float damage = CalculateDamage(cameraRayOrigin, meleeHit.point);
@@ -47,6 +49,16 @@ public class MeleeHitscanAttack : IAttackType
 
     public float CalculateDamage(Vector3 origin, Vector3 hitpoint)
     {
-        return Settings.damage;
+        return AttackSettings.damage;
+    }
+
+    public void MakeSecondary()
+    {
+        WeaponInfo.player.SetResistanceValues(BlockSettings.damageReduction);
+    }
+
+    public void ReleaseSecondary()
+    {
+        WeaponInfo.player.SetResistanceValues(-BlockSettings.damageReduction);
     }
 }

@@ -8,7 +8,8 @@ public class SecondarySettings
     [System.Serializable]
     public class Block : SecondarySettings
     {
-        
+        [Range(0f, 100f), Tooltip("The amount of damage reduced from incoming attacks in percent %")]
+        public float damageReduction = 10f;
     }
 
     [System.Serializable]

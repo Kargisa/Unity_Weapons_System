@@ -725,6 +725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68134be101fc63a4f944ed66fa2d801b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 100
   speed: 5
   mouseSensitivitie: 0.1
   jumpForce: 6
@@ -749,6 +750,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon_main: {fileID: 1121549868}
+  holdsMainAttack: 0
+  holdsSecondary: 0
 --- !u!1 &904902068
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,12 +875,15 @@ MonoBehaviour:
   bulletAttackStats: {fileID: 11400000, guid: e649b7bab229b9044a53f3ad8fb22d5b, type: 2}
   meleeAttackStats: {fileID: 11400000, guid: 17cbb94f654a28f468fb90f7b12efbe2, type: 2}
   fullauto: 0
+  firstpersonCamera: {fileID: 1825840091}
   rangeHitscanWeaponType: 0
   railgun: {fileID: 11400000, guid: 7ab260b792c08b44aa4d33a8c12f1ee6, type: 2}
   bulletWeaponType: 0
   pistol: {fileID: 11400000, guid: a85559e478665aa4e904b5f102b7f4ec, type: 2}
   meleeHitscanWeaponType: 0
   knife: {fileID: 11400000, guid: 5ab3530053a2a1a46b6a57d9cc7f6a3a, type: 2}
+  holdsMainAttack: 0
+  holdsSecondary: 0
   attackAnchor: {fileID: 0}
 --- !u!1 &1284484306
 GameObject:

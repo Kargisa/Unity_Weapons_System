@@ -8,7 +8,7 @@ public class Knife : ScriptableObject, IWeaponType
 {
     public Camera Camera { get; set; }
 
-    public IEnumerator Animate(Transform attackTransform, object data)
+    public IEnumerator AnimateMain(Transform attackTransform, object data)
     {
         //throw new System.NotImplementedException();
         yield return null;

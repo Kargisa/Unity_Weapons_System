@@ -10,12 +10,12 @@ public static class AttackHelper
     /// </summary>
     /// <param name="attack">The attack </param>
     /// <returns>A new <c>IAttackType</c></returns>
-    public static IAttackType GenerateAttackType(this Attack attack)
+    public static IAttackType GenerateAttackType(this Weapon attack)
     {
         return attack.attackT switch
         {
-            AttackType.RangeHitscan => new RangeHitscanAttack(attack.rangeHitscanAttackStats.rangeHitscanSettings, attack.rangeHitscanAttackStats.scopeHitscanSettings, attack),
-            AttackType.MeleeHitscan => new MeleeHitscanAttack(attack.meleeAttackStats.meleeHitscanSettings, attack),
+            AttackType.RangeHitscan => new RangeHitscanAttack(attack.rangeHitscanAttackStats.rangeHitscanSettings, attack.rangeHitscanAttackStats.scopeRangeHitscanSettings, attack),
+            AttackType.MeleeHitscan => new MeleeHitscanAttack(attack.meleeHitscanAttackStats.meleeHitscanSettings,attack.meleeHitscanAttackStats.blockMeleeHistcanSettings ,attack),
             AttackType.Bullet => new BulletAttack(attack.bulletAttackStats.bulletsSettings,attack.bulletAttackStats.scopeBulletSettings ,attack),
             _ => null,
         };
@@ -26,7 +26,7 @@ public static class AttackHelper
     /// </summary>
     /// <param name="attack">The attack from where the weapon comes from</param>
     /// <returns>The specific <c>IWeaponType</c> from the given <c>Attack</c></returns>
-    public static IWeaponType GetWeapon(this Attack attack)
+    public static IWeaponType GetWeapon(this Weapon attack)
     {
         return attack.attackT switch
         {

@@ -53,6 +53,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   scopeHitscanSettings:
-    scopeinTime: 0.2
+    scopeinTime: 0.15
     zoom: 5
-    rangeIncrease: 1.05
+    rangeIncrease: 0.5

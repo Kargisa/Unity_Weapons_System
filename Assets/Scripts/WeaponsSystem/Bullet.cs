@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
     {
         bulletData = data as BulletData;
         if (bulletData == null)
-            throw new System.InvalidCastException($"{nameof(bulletData)} can not be cast into {nameof(BulletData)}");
+            throw new System.InvalidCastException($"object {nameof(data)} can not be cast into {nameof(BulletData)}");
 
         settings = bulletData.Settings;
 

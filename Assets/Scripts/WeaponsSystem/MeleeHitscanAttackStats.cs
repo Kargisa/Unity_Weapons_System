@@ -6,4 +6,5 @@ using UnityEngine;
 public class MeleeHitscanAttackStats : ScriptableObject
 {
     public AttackSettings.HitScanMelee meleeHitscanSettings;
+    public SecondarySettings.Block blockMeleeHistcanSettings;
 }

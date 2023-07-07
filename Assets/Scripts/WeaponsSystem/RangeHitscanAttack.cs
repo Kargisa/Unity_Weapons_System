@@ -6,20 +6,20 @@ public class RangeHitscanAttack : IAttackType
 {
     public AttackSettings.RangeHitscan AttackSettings { get; }
     public SecondarySettings.Scope ScopeSettings { get; }
-    public Attack AttackInfo { get; }
+    public Weapon WeaponInfo { get; }
     public Camera Camera { get; }
-
-    public IWeaponType Weapon { get; set; }
-
     public SecondarySettings SecondarySettings { get; }
 
-    public RangeHitscanAttack(AttackSettings.RangeHitscan attackSettings, SecondarySettings.Scope scopeSettings, Attack attack)
+
+    private float zoomFactor = 0f;
+
+    public RangeHitscanAttack(AttackSettings.RangeHitscan attackSettings, SecondarySettings.Scope scopeSettings, Weapon weapon)
     {
         AttackSettings = attackSettings;
         ScopeSettings = scopeSettings;
         SecondarySettings = scopeSettings;
-        AttackInfo = attack;
-        Camera = attack.firstpersonCamera;
+        WeaponInfo = weapon;
+        Camera = weapon.firstpersonCamera;
     }
 
     public object MakeAttack(Transform attackAnchor)
@@ -55,7 +55,6 @@ public class RangeHitscanAttack : IAttackType
 
         //Debug.Log("origin: " + origin + " hitpoint: " + hitpoint + " distance: " + distance);
 
-        float zoomFactor = ScopeSettings.rangeIncrease * ScopeSettings.zoom * (AttackInfo.holdsSecondary ? 1 : 0);
         float min = AttackSettings.minFalloffRange + zoomFactor;
         float max = AttackSettings.maxFalloffRange + zoomFactor;
 
@@ -64,5 +63,15 @@ public class RangeHitscanAttack : IAttackType
         float damage = y * AttackSettings.damage;
 
         return damage;
+    }
+
+    public void MakeSecondary()
+    {
+        zoomFactor = ScopeSettings.rangeIncrease * ScopeSettings.zoom;
+    }
+
+    public void ReleaseSecondary()
+    {
+        zoomFactor = 0f;
     }
 }

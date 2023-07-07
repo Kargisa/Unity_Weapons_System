@@ -14,6 +14,16 @@ public interface IAttackType
     public object MakeAttack(Transform attackTransform);
 
     /// <summary>
+    /// Makes the secondray move of the attack
+    /// </summary>
+    public void MakeSecondary();
+
+    /// <summary>
+    /// Makes a move when the secondary move stops
+    /// </summary>
+    public void ReleaseSecondary();
+
+    /// <summary>
     /// Calculates the damage to a target
     /// </summary>
     /// <param name="origin">The origin of the attack</param>
@@ -21,4 +31,5 @@ public interface IAttackType
     /// <returns>The damage that will be dealt to a target</returns>
     /// <exception cref="System.NotImplementedException"></exception>
     public float CalculateDamage(Vector3 origin, Vector3 hitpoint);
+
 }

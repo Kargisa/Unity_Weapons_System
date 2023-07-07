@@ -12,14 +12,13 @@ public class Railgun : ScriptableObject, IWeaponType
     [Min(0f)]
     public float endWidth;
     public Material lineMaterial;
-    [Header("Secondary")]
 
 
     [HideInInspector] public GameObject railgunLine;
 
     private LineRenderer _line;
-    private float fieldOfView;
     public Camera Camera { get; set; }
+    private float fieldOfView;
     private bool scopingIn = false;
     private bool scopingOut = false;
 
@@ -53,7 +52,7 @@ public class Railgun : ScriptableObject, IWeaponType
             
     }
 
-    public IEnumerator Animate(Transform attackPoint, object data)
+    public IEnumerator AnimateMain(Transform attackPoint, object data)
     {
         Vector3 hitPoint = (Vector3)data;
 
@@ -71,9 +70,8 @@ public class Railgun : ScriptableObject, IWeaponType
 
     public IEnumerator AnimateSecondary(object data)
     {
-        SecondarySettings.Scope scopeSettings = data as SecondarySettings.Scope;
-        if (scopeSettings == null)
-            throw new System.InvalidCastException($"{nameof(data)} can not be cast into {nameof(SecondarySettings.Scope)}");
+        if (data is not SecondarySettings.Scope scopeSettings)
+            throw new System.InvalidCastException($"object {nameof(data)} can not be cast into {nameof(SecondarySettings.Scope)}");
         scopingIn = true;
         fieldOfView = Camera.fieldOfView;
         float finalZoom = Camera.fieldOfView - scopeSettings.zoom;
@@ -93,9 +91,8 @@ public class Railgun : ScriptableObject, IWeaponType
 
     public IEnumerator AnimateReleaseSecondary(object data)
     {
-        SecondarySettings.Scope scopeSettings = data as SecondarySettings.Scope;
-        if (scopeSettings == null)
-            throw new System.InvalidCastException($"{nameof(data)} can not be cast into {nameof(SecondarySettings.Scope)}");
+        if (data is not SecondarySettings.Scope scopeSettings)
+            throw new System.InvalidCastException($"object {nameof(data)} can not be cast into {nameof(SecondarySettings.Scope)}");
         scopingOut = true;
         float time = 0f;
         while (time < scopeSettings.scopeinTime)

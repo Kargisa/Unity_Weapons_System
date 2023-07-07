@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
 #if UNITY_EDITOR
     [HideInInspector] public bool foldSettings;
@@ -19,10 +18,11 @@ public class Attack : MonoBehaviour
     [HideInInspector] public AttackType attackT;
     [HideInInspector] public RangeHitscanAttackStats rangeHitscanAttackStats;
     [HideInInspector] public BulletAttackStats bulletAttackStats;
-    [HideInInspector] public MeleeHitscanAttackStats meleeAttackStats;
+    [HideInInspector] public MeleeHitscanAttackStats meleeHitscanAttackStats;
 
     [HideInInspector] public bool fullauto = false;
     [HideInInspector] public Camera firstpersonCamera;
+    [HideInInspector] public IPlayer player;
 
     #region Range Hitscan Weapons
     //Range Hitscan Weapons ScriptableObjects
@@ -56,7 +56,6 @@ public class Attack : MonoBehaviour
 
     float timeOfLastAttack = 0;
 
-    object data;
 
     /// <summary>
     /// The <b>point</b> from where the attack emerges from
@@ -70,11 +69,8 @@ public class Attack : MonoBehaviour
 
     private void InitAttack()
     {
-        if (firstpersonCamera == null)
-        {
-            Debug.LogWarning("No camera specified, using 'Main Camera'");
-            firstpersonCamera = Camera.main;
-        }
+
+        firstpersonCamera = Camera.main;
         attackType = this.GenerateAttackType();
         weaponType = this.GetWeapon();
         attackAnchor = transform.Find("AttackAnchor");
@@ -101,23 +97,25 @@ public class Attack : MonoBehaviour
                     return;
                 break;
             case AttackType.MeleeHitscan:
-                if (timeBetweenShots <= 60 / meleeAttackStats.meleeHitscanSettings.speed)
+                if (timeBetweenShots <= 60 / meleeHitscanAttackStats.meleeHitscanSettings.speed)
                     return;
                 break;
         }
 
-        data = attackType.MakeAttack(attackAnchor);
-        StartCoroutine(weaponType.Animate(attackAnchor, data));
+        object data = attackType.MakeAttack(attackAnchor);
+        StartCoroutine(weaponType.AnimateMain(attackAnchor, data));
         timeOfLastAttack = Time.time;
     }
 
     public void MakeSecondary()
     {
+        attackType.MakeSecondary();
         StartCoroutine(weaponType.AnimateSecondary(attackType.SecondarySettings));
     }
 
     public void ReleaseSecondary()
     {
+        attackType.ReleaseSecondary();
         StartCoroutine(weaponType.AnimateReleaseSecondary(attackType.SecondarySettings));
     }
 

@@ -4,5 +4,5 @@ using UnityEngine;
 public class RangeHitscanAttackStats : ScriptableObject
 {
     public AttackSettings.RangeHitscan rangeHitscanSettings;
-    public SecondarySettings.Scope scopeHitscanSettings;
+    public SecondarySettings.Scope scopeRangeHitscanSettings;
 }

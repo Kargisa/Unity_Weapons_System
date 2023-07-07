@@ -18,7 +18,7 @@ public interface IWeaponType
     /// <param name="attackTransform">The point from where the attack emits from</param>
     /// <param name="data">The informational data from the attack (hitpoint, velocity, etc)</param>
     /// <returns></returns>
-    public IEnumerator Animate(Transform attackTransform, object data);
+    public IEnumerator AnimateMain(Transform attackTransform, object data);
 
     /// <summary>
     /// Makes the secondary move of the attack
